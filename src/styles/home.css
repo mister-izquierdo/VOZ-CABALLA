@@ -1,0 +1,96 @@
+/* =====================================================================
+   VOZ CABALLA · home.css
+   Página de inicio. Medidas de tu diseño HOME.svg.
+   ===================================================================== */
+
+.home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: calc(60 * var(--u));
+}
+
+.home__column {
+  width: calc(1080 * var(--u));
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home__logo { display: block; width: calc(622.5 * var(--u)); height: auto; }
+
+.home .counters--home { margin-top: calc(60 * var(--u)); }
+
+/* Tarjeta con título amarillo */
+.home__card-wrap {
+  position: relative;
+  width: calc(727 * var(--u));
+  margin-top: calc(131 * var(--u));
+}
+
+.home__pill {
+  position: absolute;
+  z-index: 2;
+  left: calc(-36 * var(--u));
+  top: calc(-30 * var(--u));
+  display: grid;
+  place-items: center;
+  width: calc(437 * var(--u));
+  height: calc(49 * var(--u));
+  margin: 0;
+  border: max(1px, calc(3 * var(--u))) solid var(--color-texto);
+  border-radius: calc(23.5 * var(--u));
+  background: #fff;
+  font-size: calc(34 * var(--u));
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: var(--tracking-pastilla);
+  white-space: nowrap;
+}
+
+.home__card {
+  border: max(1px, calc(3 * var(--u))) solid var(--color-texto);
+  border-radius: calc(27.5 * var(--u));
+  background: #fff;
+  overflow: hidden;
+}
+
+.home__card-title {
+  display: grid;
+  place-items: center;
+  height: calc(97 * var(--u));
+  margin: 0;
+  padding-top: calc(12 * var(--u));
+  background: var(--color-amarillo);
+  border-bottom: max(1px, calc(3 * var(--u))) solid var(--color-texto);
+  font-size: calc(66 * var(--u));
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: var(--tracking-titulo);
+}
+
+.home__card-body {
+  padding: calc(36 * var(--u)) calc(88 * var(--u)) calc(44 * var(--u));
+  font-size: calc(34 * var(--u));
+  line-height: calc(39 / 34);
+  font-weight: 500;
+  letter-spacing: var(--tracking-cuerpo);
+}
+.home__card-body p { margin: 0; }
+.home__card-body p + p { margin-top: calc(54 * var(--u)); }
+
+/* Mensaje de respeto */
+.home__respect {
+  width: calc(790 * var(--u));
+  margin: calc(66 * var(--u)) 0 0;
+  text-align: center;
+  color: var(--color-notas);
+  /* Mínimo de 12 px para que se pueda leer en móvil */
+  font-size: max(12px, calc(26 * var(--u)));
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: var(--tracking-pequeno);
+}
+
+.home .btn-rojo { margin-top: calc(104 * var(--u)); }

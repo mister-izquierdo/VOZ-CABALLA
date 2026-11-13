@@ -1,0 +1,30 @@
+---
+/**
+ * VOZ CABALLA · components/Counters.astro
+ * Los dos contadores: días transcurridos y voces (testimonios publicados).
+ * variant="header": se coloca dentro de la cabecera que se encoge.
+ * variant="home": versión grande y centrada de la Home.
+ */
+import { diasTranscurridos, etiquetaDias, etiquetaVoces } from '../lib/contadores';
+
+interface Props {
+  variant: 'header' | 'home';
+}
+const { variant } = Astro.props;
+
+const dias = diasTranscurridos();
+// PROVISIONAL: se conectará a Supabase (solo testimonios publicados) más adelante.
+const voces = 0;
+---
+
+<div class={`counters counters--${variant}`}>
+  <div class="counter counter--days">
+    <span class="counter__num" data-counter-days>{dias}</span>
+    <span class="counter__label" data-counter-days-label>{etiquetaDias(dias)}</span>
+  </div>
+  <span class="counters__divider" aria-hidden="true"></span>
+  <div class="counter counter--voices">
+    <span class="counter__num" data-counter-voices>{voces}</span>
+    <span class="counter__label" data-counter-voices-label>{etiquetaVoces(voces)}</span>
+  </div>
+</div>

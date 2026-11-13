@@ -1,0 +1,54 @@
+/* =====================================================================
+   VOZ CABALLA · tokens.css
+   Valores de diseño (colores, tipografía, escala).
+   Todo lo que se pueda cambiar del diseño vive aquí.
+   ===================================================================== */
+
+:root {
+  /* ESCALA
+     1 unidad = 1 px de tus lienzos de 1080 px de ancho.
+     En un móvil de 390 px de ancho, 1 unidad ≈ 0.36 px.
+     En pantallas grandes la columna se queda en 520 px (centrada). */
+  --u: calc(min(100vw, 520px) / 1080);
+
+  /* COLORES (de tu ficha de estilo) */
+  --color-fondo: #ffffff;
+  --color-texto: #000000;
+  --color-principal: #000000;
+  --color-notas: #717171;
+  --color-rojo: #ff0000;
+  --color-rojo-suave: #ff7f7f;   /* botón de navegación de la página inactiva */
+  --color-azul: #0017e8;
+  --color-amarillo: #fffb00;
+
+  /* COLORES DE CATEGORÍA */
+  --cat-economicos: #fffb00;
+  --cat-materiales: #0dff00;
+  --cat-laborales: #ff9946;
+  --cat-familiares: #ff4659;
+  --cat-psicologicas: #ff46d4;
+  --cat-inseguridad: #00d9ff;
+  --cat-otro: #ededed;
+
+  /* TIPOGRAFÍA */
+  --font-sans: "Inter Variable", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* ESPACIADO ENTRE LETRAS
+     Tus diseños llevan las letras muy juntas. Estos valores se midieron para que
+     cada texto ocupe el mismo ancho que en tus lienzos usando Inter normal. */
+  --tracking-nav: -0.09em;
+  --tracking-numero: -0.08em;
+  --tracking-etiqueta: -0.09em;
+  --tracking-pastilla: -0.075em;
+  --tracking-titulo: -0.070em;
+  --tracking-cuerpo: -0.08em;
+  --tracking-boton: -0.060em;
+  --tracking-pequeno: -0.055em;
+
+  /* HEADER
+     Espacio por encima de los botones de navegación, en unidades de lienzo.
+     En tus lienzos son 138 (incluye la barra de estado del móvil); en una web
+     real el navegador ya pone esa barra, así que uso menos. Súbelo si lo quieres
+     más separado. */
+  --header-top: 56;
+}

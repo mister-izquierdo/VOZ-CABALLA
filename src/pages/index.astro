@@ -1,16 +1,42 @@
 ---
+/**
+ * VOZ CABALLA · pages/index.astro  (HOME)
+ * Logotipo, contadores, mensaje del proyecto, aviso de respeto y un único botón.
+ */
+import Layout from '../layouts/Layout.astro';
+import Counters from '../components/Counters.astro';
+import Footer from '../components/Footer.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="VOZ CABALLA · Testimonios ciudadanos de Ceuta">
+  <main class="home">
+    <div class="home__column">
+      <h1 class="sr-only">VOZ CABALLA: archivo de testimonios ciudadanos de Ceuta</h1>
+      <img class="home__logo" src="/logo.svg" alt="VOZ CABALLA" width="623" height="96" />
+
+      <Counters variant="home" />
+
+      <section class="home__card-wrap" aria-labelledby="home-titulo">
+        <p class="home__pill">¿Viviste los acontecimientos?</p>
+        <div class="home__card">
+          <h2 class="home__card-title" id="home-titulo">TU HISTORIA IMPORTA</h2>
+          <div class="home__card-body">
+            <p>
+              Las consecuencias continúan. Este es un espacio para preservar las historias de los
+              ceutíes...
+            </p>
+            <p>Porque detrás de cada cifra hay una historia.</p>
+          </div>
+        </div>
+      </section>
+
+      <p class="home__respect">
+        Cada testimonio es una persona real. Te pedimos respeto al leer y al compartir. Aquí no caben
+        los mensajes racistas, machistas, homófobos ni de odio hacia ninguna persona o colectivo.
+      </p>
+
+      <a class="btn-rojo" href="/expresate">Comenzar con respeto</a>
+    </div>
+  </main>
+  <Footer />
+</Layout>

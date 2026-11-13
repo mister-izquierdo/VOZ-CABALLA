@@ -1,0 +1,44 @@
+---
+/**
+ * VOZ CABALLA · layouts/Layout.astro
+ * Estructura común de todas las páginas: <head>, tipografía, estilos y contadores.
+ */
+import '@fontsource-variable/inter';
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/counters.css';
+import '../styles/header.css';
+import '../styles/footer.css';
+import '../styles/home.css';
+import '../styles/form.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'VOZ CABALLA',
+  description = 'Un espacio para preservar las historias de los ceutíes y que sus testimonios sean escuchados. Detrás de cada cifra hay una historia.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  </head>
+  <body>
+    <slot />
+    <script>
+      import '../scripts/counters';
+    </script>
+  </body>
+</html>

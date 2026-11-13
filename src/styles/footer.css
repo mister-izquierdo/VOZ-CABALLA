@@ -1,0 +1,54 @@
+/* =====================================================================
+   VOZ CABALLA · footer.css
+   Pie de página azul. Solo el texto subrayado es un enlace.
+   Medidas de tu diseño TESTIMONIOS.svg.
+   ===================================================================== */
+
+.site-footer {
+  background: var(--color-azul);
+  color: #fff;
+  text-align: center;
+  padding: calc(32 * var(--u)) 0 max(calc(52 * var(--u)), env(safe-area-inset-bottom, 0px));
+}
+
+.site-footer__inner {
+  width: calc(1080 * var(--u));
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.site-footer__logo { display: block; width: calc(408.5 * var(--u)); height: auto; }
+
+.site-footer__tagline {
+  margin: calc(19 * var(--u)) 0 0;
+  /* Mínimo de 12 px para que se pueda leer en móvil */
+  font-size: max(12px, calc(28 * var(--u)));
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: var(--tracking-pequeno);
+}
+
+.site-footer__links {
+  list-style: none;
+  margin: calc(22 * var(--u)) 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px calc(40 * var(--u));
+  font-size: max(11px, calc(28 * var(--u)));
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: var(--tracking-pequeno);
+}
+
+.site-footer__links li { white-space: nowrap; }
+
+.site-footer__links a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+.site-footer__links a:focus-visible { outline-color: #fff; }

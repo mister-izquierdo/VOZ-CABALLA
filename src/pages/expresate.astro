@@ -1,0 +1,235 @@
+---
+/**
+ * VOZ CABALLA · pages/expresate.astro
+ * Formulario de testimonios (diseño EXPRESATE.svg).
+ * Por ahora solo valida en el navegador; el envío se conecta en el siguiente paso.
+ */
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { CATEGORIAS } from '../lib/categorias';
+import { REGLAS } from '../lib/formulario-reglas';
+import { diasTranscurridos, etiquetaDias } from '../lib/contadores';
+
+const dias = diasTranscurridos();
+---
+
+<Layout
+  title="Exprésate · VOZ CABALLA"
+  description="Cuenta tu historia: comparte tu testimonio y las consecuencias que sigues sufriendo. Detrás de cada cifra hay una historia."
+>
+  <Header current="expresate" />
+
+  <main class="expresate">
+    <form class="form-card" id="form-testimonio" novalidate>
+      <div class="form-card__head">
+        <p class="form-card__eyebrow">
+          <span data-counter-days>{dias}</span>
+          <span data-counter-days-label>{etiquetaDias(dias)}</span> · INVASIÓN CEUTA
+        </p>
+        <h1 class="form-card__title">TU HISTORIA IMPORTA</h1>
+        <p class="form-card__lead">
+          Cuéntanos qué viviste y qué consecuencias siguen presentes.
+        </p>
+      </div>
+
+      <hr class="form-divider" />
+
+      <!-- Nombre -->
+      <fieldset class="form-group form-group--radios">
+        <legend class="form-label">Nombre</legend>
+        <label class="radio">
+          <input type="radio" name="anonimato" value="anonimo" checked />
+          <span>Anónimo</span>
+        </label>
+        <label class="radio">
+          <input type="radio" name="anonimato" value="nombre" />
+          <span>Publicar con mi nombre</span>
+        </label>
+      </fieldset>
+
+      <div class="form-group">
+        <label class="form-label" for="nombre">Nombre</label>
+        <input
+          class="form-field"
+          id="nombre"
+          name="nombre"
+          type="text"
+          autocomplete="given-name"
+          maxlength={REGLAS.nombreMax}
+          placeholder="Anónimo"
+          disabled
+          aria-describedby="nombre-error"
+        />
+        <p class="form-error" id="nombre-error" hidden></p>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="apellidos">Apellidos</label>
+        <input
+          class="form-field"
+          id="apellidos"
+          name="apellidos"
+          type="text"
+          autocomplete="family-name"
+          maxlength={REGLAS.apellidosMax}
+          placeholder="Anónimo"
+          disabled
+          aria-describedby="apellidos-error"
+        />
+        <p class="form-error" id="apellidos-error" hidden></p>
+      </div>
+
+      <!-- Contacto (privado) -->
+      <div class="form-group">
+        <label class="form-label" for="contacto">Correo electrónico o teléfono</label>
+        <input
+          class="form-field"
+          id="contacto"
+          name="contacto"
+          type="text"
+          autocomplete="email"
+          maxlength="200"
+          placeholder="Tu forma de contacto"
+          aria-describedby="contacto-hint contacto-error"
+        />
+        <p class="form-error" id="contacto-error" hidden></p>
+        <p class="form-hint" id="contacto-hint">
+          Estos datos no se mostrarán públicamente. Solo se utilizarán para contactar contigo y, si
+          lo deseas, ayudarte a dar mayor visibilidad a tu historia mediante una entrevista.
+        </p>
+      </div>
+
+      <!-- Categoría -->
+      <div class="form-group">
+        <label class="form-label" for="categoria">Categoría de testimonio</label>
+        <select class="form-field form-select" id="categoria" name="categoria" aria-describedby="categoria-error">
+          <option value="" selected disabled>Selecciona una categoría...</option>
+          {CATEGORIAS.map((c) => (
+            <option value={c.valor} data-archivos={c.permiteArchivos ? 'si' : 'no'}>
+              {c.etiqueta}
+            </option>
+          ))}
+        </select>
+        <p class="form-error" id="categoria-error" hidden></p>
+      </div>
+
+      <div class="form-group" id="grupo-otra" hidden>
+        <label class="form-label" for="categoria_otra">¿Qué categoría?</label>
+        <input
+          class="form-field"
+          id="categoria_otra"
+          name="categoria_otra"
+          type="text"
+          maxlength={REGLAS.categoriaOtraMax}
+          placeholder="Escríbela aquí"
+          aria-describedby="categoria_otra-error"
+        />
+        <p class="form-error" id="categoria_otra-error" hidden></p>
+      </div>
+
+      <!-- Testimonio y consecuencias -->
+      <div class="form-group">
+        <label class="form-label" for="testimonio">Tu testimonio</label>
+        <div class="form-textarea">
+          <textarea
+            class="form-field"
+            id="testimonio"
+            name="testimonio"
+            maxlength={REGLAS.testimonioMax}
+            placeholder="Cuéntanos qué ocurrió..."
+            aria-describedby="testimonio-error"></textarea>
+          <span class="form-counter" data-contador="testimonio" aria-hidden="true"
+            >0/{REGLAS.testimonioMax}</span
+          >
+        </div>
+        <p class="form-error" id="testimonio-error" hidden></p>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="consecuencias">¿Qué consecuencias sigues sufriendo?</label>
+        <div class="form-textarea">
+          <textarea
+            class="form-field"
+            id="consecuencias"
+            name="consecuencias"
+            maxlength={REGLAS.consecuenciasMax}
+            placeholder="Describe cómo ha afectado a tu vida..."
+            aria-describedby="consecuencias-error"></textarea>
+          <span class="form-counter" data-contador="consecuencias" aria-hidden="true"
+            >0/{REGLAS.consecuenciasMax}</span
+          >
+        </div>
+        <p class="form-error" id="consecuencias-error" hidden></p>
+      </div>
+
+      <!-- Archivos multimedia (se oculta en Familiares y Psicológicas) -->
+      <hr class="form-divider" id="divisor-archivos" />
+
+      <section class="form-group form-archivos" id="seccion-archivos" aria-labelledby="archivos-titulo">
+        <h2 class="form-label" id="archivos-titulo">Archivos multimedia</h2>
+        <p class="form-hint form-hint--tight">
+          Si se poseen archivos que puedan reforzar tu testimonio para que llegue a más gente,
+          ¡compártelo!
+        </p>
+
+        <input
+          class="sr-only"
+          id="archivos"
+          name="archivos"
+          type="file"
+          multiple
+          accept=".jpg,.jpeg,.png,.webp,.pdf,image/jpeg,image/png,image/webp,application/pdf"
+          aria-describedby="archivos-error archivos-hint"
+        />
+        <label class="upload" for="archivos" id="zona-archivos">
+          <span class="upload__titulo">Adjuntar archivos</span>
+          <span class="upload__tipos">Fotografía · Facturas · PDF</span>
+        </label>
+
+        <ul class="upload-list" id="lista-archivos" aria-live="polite"></ul>
+        <p class="form-error" id="archivos-error" hidden></p>
+
+        <p class="form-hint" id="archivos-hint">
+          Los documentos seleccionados para publicación podrán ser visibles junto a tu testimonio.
+          No adjuntes datos personales innecesarios ni información de terceros.
+        </p>
+        <p class="form-hint form-hint--tight">
+          ¿Tienes vídeos? Menciónalo en tu testimonio y te contactaremos.
+        </p>
+      </section>
+
+      <hr class="form-divider" />
+
+      <!-- Consentimiento -->
+      <fieldset class="form-group form-group--checks" id="consentimientos">
+        <legend class="form-label">Consentimiento</legend>
+        <label class="check">
+          <input type="checkbox" name="acepta_publicacion" />
+          <span>Autorizo su publicación tras la revisión.</span>
+        </label>
+        <label class="check">
+          <input type="checkbox" name="acepta_privacidad" />
+          <span
+            >Acepto la
+            <a href="/politica-de-privacidad" target="_blank" rel="noopener">política de privacidad</a>.</span
+          >
+        </label>
+        <label class="check" id="check-archivos">
+          <input type="checkbox" name="acepta_derecho_documentos" />
+          <span>Confirmo que tengo derecho a aportar los archivos.</span>
+        </label>
+        <p class="form-error" id="consentimientos-error" hidden></p>
+      </fieldset>
+
+      <button class="btn-rojo form-submit" type="submit">Enviar Testimonio</button>
+      <p class="form-status" id="form-estado" role="status" hidden></p>
+    </form>
+  </main>
+
+  <Footer />
+
+  <script>
+    import '../scripts/formulario';
+  </script>
+</Layout>

@@ -1,0 +1,19 @@
+---
+/**
+ * VOZ CABALLA · pages/testimonios.astro
+ * PROVISIONAL: solo cabecera y pie. El archivo de testimonios se construye después.
+ */
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Testimonios · VOZ CABALLA">
+  <Header current="testimonios" />
+  <main>
+    <p class="provisional">Aquí irán los testimonios.</p>
+    <!-- Altura de prueba para poder hacer scroll y ver cómo se encoge la cabecera. Se quitará. -->
+    <div style="height: 1800px" aria-hidden="true"></div>
+  </main>
+  <Footer />
+</Layout>

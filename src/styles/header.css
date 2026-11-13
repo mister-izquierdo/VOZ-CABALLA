@@ -1,0 +1,104 @@
+/* =====================================================================
+   VOZ CABALLA · header.css
+   Cabecera fija que se encoge al hacer scroll.
+
+   --p vale 0 (expandida) a 1 (compacta). Lo escribe scripts/header-scroll.ts
+   según el scroll. Todas las posiciones están en unidades de lienzo (× --u)
+   y salen de tus diseños HEADER_EXPANDIDO.svg y EXPRESATE.svg.
+   ===================================================================== */
+
+.site-header {
+  --p: 0;
+  --s: calc(1 - 0.345 * var(--p));                    /* escala logo y contadores: 1 → 0,655 */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --y0: calc(var(--safe-top) + var(--header-top) * var(--u));  /* arriba de los botones */
+
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  background: var(--color-fondo);
+  overflow: clip;
+  /* expandida: 450 unidades bajo los botones · compacta: 240 */
+  height: calc(var(--safe-top) + (var(--header-top) + 450 - 210 * var(--p)) * var(--u));
+}
+
+/* Hueco en la página para que el contenido empiece bajo la cabecera expandida.
+   El contenido sube con el scroll exactamente lo que se encoge la cabecera,
+   así nunca queda un hueco ni hay saltos. */
+.site-header-spacer {
+  height: calc(env(safe-area-inset-top, 0px) + (var(--header-top) + 450) * var(--u));
+}
+
+.site-header__inner {
+  position: relative;
+  width: calc(1080 * var(--u));
+  height: 100%;
+  margin-inline: auto;
+}
+
+/* --- Botones de navegación --- */
+.site-header__nav {
+  position: absolute;
+  left: 0; right: 0;
+  top: var(--y0);
+  display: flex;
+  justify-content: center;
+  gap: calc(32 * var(--u));
+  font-size: calc(42.6 * var(--u));
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: var(--tracking-nav);
+}
+
+.nav-link {
+  position: relative;
+  color: var(--color-rojo-suave);
+  text-decoration: none;
+}
+.nav-link.is-active { color: var(--color-rojo); }
+/* Zona táctil mínima de 44 px sin cambiar el diseño */
+.nav-link::after { content: ""; position: absolute; inset: -14px -10px; }
+
+/* --- Logotipo --- */
+.site-header__logo {
+  position: absolute;
+  left: 0; top: 0;
+  display: block;
+  width: calc(622.5 * var(--u));
+  transform-origin: 0 0;
+  transform:
+    translate(calc((228.75 - 106.75 * var(--p)) * var(--u)),
+              calc(var(--y0) + (70 + 19 * var(--p)) * var(--u)))
+    scale(var(--s));
+}
+.site-header__logo img { display: block; width: 100%; height: auto; }
+
+/* --- Contadores dentro de la cabecera (posicionados a mano) --- */
+.counters--header { position: absolute; inset: 0; pointer-events: none; }
+
+.counters--header .counter {
+  position: absolute;
+  left: 0; top: 0;
+  width: calc(200 * var(--u));
+  transform-origin: 50% 0;
+}
+.counters--header .counter--days {
+  transform:
+    translate(calc((313.5 + 288 * var(--p)) * var(--u)),
+              calc(var(--y0) + (229.4 - 133.3 * var(--p)) * var(--u)))
+    scale(var(--s));
+}
+.counters--header .counter--voices {
+  transform:
+    translate(calc((561.5 + 223 * var(--p)) * var(--u)),
+              calc(var(--y0) + (229.4 - 133.3 * var(--p)) * var(--u)))
+    scale(var(--s));
+}
+.counters--header .counters__divider {
+  position: absolute;
+  left: 0; top: 0;
+  height: calc((129 - 45 * var(--p)) * var(--u));
+  transform:
+    translate(calc((539 + 55.5 * var(--p)) * var(--u)),
+              calc(var(--y0) + (239 - 154 * var(--p)) * var(--u)));
+}

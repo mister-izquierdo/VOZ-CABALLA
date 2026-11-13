@@ -1,0 +1,315 @@
+/* =====================================================================
+   VOZ CABALLA · form.css
+   Formulario de Exprésate. Medidas de tu diseño EXPRESATE.svg
+   (unidades de lienzo × --u, como en el resto del proyecto).
+
+   Dos cosas distintas de tu lienzo, por usabilidad en móvil:
+   - Campos, casillas y botones tienen un mínimo de 42 px de alto
+     (--campo-min). Con 0 vuelven a las medidas exactas de tu lienzo.
+   - El texto que se escribe en los campos mide mínimo 16 px, o el iPhone
+     amplía la pantalla al tocar el campo.
+   ===================================================================== */
+
+:root {
+  --color-error: #b42318;
+  --color-ok: #067647;
+  --color-linea: #717171;
+  --color-linea-suave: #b7b7b7;
+  --campo-min: 42px;          /* alto mínimo de campos, casillas y botones */
+  --min-texto: 14px;          /* etiquetas y opciones */
+  --min-pequeno: 12px;        /* avisos, contadores y textos pequeños */
+}
+
+[hidden] { display: none !important; }
+
+.expresate {
+  padding-bottom: calc(60 * var(--u));
+}
+
+/* --- Tarjeta --- */
+.form-card {
+  width: calc(953 * var(--u));
+  margin: 0 auto;
+  padding: calc(64 * var(--u)) calc(55.5 * var(--u)) calc(36 * var(--u));
+  border: max(1px, calc(3 * var(--u))) solid #121212;
+  border-radius: calc(61.5 * var(--u));
+  background: #fff;
+}
+
+/* --- Cabecera de la tarjeta --- */
+.form-card__head { text-align: center; }
+
+.form-card__eyebrow {
+  margin: 0;
+  font-size: max(var(--min-texto), calc(34 * var(--u)));
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: var(--tracking-cuerpo);
+}
+
+.form-card__title {
+  margin: calc(14 * var(--u)) 0 0;
+  font-size: calc(66 * var(--u));
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: var(--tracking-titulo);
+}
+
+.form-card__lead {
+  margin: calc(14 * var(--u)) auto 0;
+  max-width: calc(560 * var(--u));
+  font-size: max(var(--min-pequeno), calc(26 * var(--u)));
+  line-height: calc(31 / 26);
+  font-weight: 500;
+  letter-spacing: var(--tracking-pequeno);
+  color: var(--color-notas);
+}
+
+.form-divider {
+  height: 0;
+  margin: calc(40 * var(--u)) 0 0;
+  border: 0;
+  border-top: max(1px, calc(3 * var(--u))) solid var(--color-linea);
+}
+
+/* --- Grupos: etiqueta + campo --- */
+.form-group {
+  margin: calc(18 * var(--u)) 0 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.form-divider + .form-group { margin-top: calc(40 * var(--u)); }
+
+.form-label {
+  display: block;
+  margin: 0 0 calc(9 * var(--u));
+  padding: 0;
+  font-size: max(var(--min-texto), calc(34 * var(--u)));
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: var(--tracking-cuerpo);
+  color: var(--color-texto);
+}
+
+.form-hint {
+  margin: calc(24 * var(--u)) 0 0;
+  font-size: max(var(--min-pequeno), calc(26 * var(--u)));
+  line-height: calc(31 / 26);
+  font-weight: 500;
+  letter-spacing: var(--tracking-pequeno);
+  color: var(--color-notas);
+}
+.form-hint--tight { margin-top: 0; }
+.form-group > .form-label + .form-hint--tight { margin-top: calc(6 * var(--u)); }
+
+.form-error {
+  margin: 8px 0 0;
+  font-size: max(var(--min-pequeno), calc(26 * var(--u)));
+  line-height: 1.25;
+  font-weight: 600;
+  letter-spacing: var(--tracking-pequeno);
+  color: var(--color-error);
+}
+
+/* --- Campos --- */
+.form-field {
+  display: block;
+  width: 100%;
+  min-height: max(calc(60 * var(--u)), var(--campo-min));
+  margin: 0;
+  padding: 0 max(var(--min-pequeno), calc(11.5 * var(--u)));
+  border: 1px solid var(--color-linea);
+  border-radius: calc(14.5 * var(--u));
+  background: #fff;
+  color: var(--color-texto);
+  font: inherit;
+  font-size: max(16px, calc(34 * var(--u)));
+  font-weight: 500;
+  letter-spacing: var(--tracking-cuerpo);
+  line-height: 1.2;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.form-field::placeholder { color: var(--color-linea); opacity: 1; }
+.form-field:disabled {
+  border-color: var(--color-linea-suave);
+  background: #fff;
+  color: var(--color-linea-suave);
+  -webkit-text-fill-color: var(--color-linea-suave);
+  cursor: not-allowed;
+}
+.form-field:disabled::placeholder { color: var(--color-linea-suave); }
+.form-field[aria-invalid="true"] { border-color: var(--color-error); }
+
+/* Select con flecha */
+.form-select {
+  padding-right: 44px;
+  color: var(--color-linea);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9' fill='none'%3E%3Cpath d='M1 1.5l6 6 6-6' stroke='%23717171' stroke-width='1.8'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+}
+.form-select.is-filled { color: var(--color-texto); }
+
+/* Cajas de texto largo con contador dentro */
+.form-textarea { position: relative; }
+.form-textarea .form-field {
+  min-height: max(calc(138 * var(--u)), 128px);
+  padding-top: 12px;
+  padding-bottom: 34px;
+  resize: none;
+}
+.form-counter {
+  position: absolute;
+  right: max(var(--min-pequeno), calc(14 * var(--u)));
+  bottom: max(8px, calc(14 * var(--u)));
+  font-size: max(var(--min-pequeno), calc(26 * var(--u)));
+  line-height: 1;
+  letter-spacing: var(--tracking-pequeno);
+  color: var(--color-linea);
+  pointer-events: none;
+}
+.form-counter.is-full { color: var(--color-error); }
+
+/* --- Opciones (círculos) --- */
+.form-group--radios .form-label { margin-bottom: calc(10 * var(--u)); }
+
+.radio {
+  display: flex;
+  align-items: center;
+  gap: max(10px, calc(30 * var(--u)));
+  min-height: max(calc(35 * var(--u)), var(--campo-min));
+  cursor: pointer;
+  font-size: max(var(--min-texto), calc(34 * var(--u)));
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: var(--tracking-cuerpo);
+}
+.radio input {
+  flex: none;
+  width: max(20px, calc(35 * var(--u)));
+  height: max(20px, calc(35 * var(--u)));
+  margin: 0;
+  border: max(1.5px, calc(3 * var(--u))) solid var(--color-texto);
+  border-radius: 50%;
+  background: #fff;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+.radio input:checked {
+  background: radial-gradient(circle closest-side, #fff 0 46%, var(--color-texto) 50%);
+}
+.form-group--radios { margin-bottom: calc(27 * var(--u)); }
+
+/* --- Archivos --- */
+.upload {
+  display: grid;
+  place-content: center;
+  gap: calc(10 * var(--u));
+  min-height: max(calc(251 * var(--u)), 140px);
+  margin-top: calc(16 * var(--u));
+  padding: 16px;
+  border: 1px solid var(--color-linea);
+  border-radius: calc(14.5 * var(--u));
+  text-align: center;
+  color: var(--color-linea);
+  cursor: pointer;
+}
+.upload.is-over { border-color: var(--color-texto); background: #f5f5f5; }
+input:focus-visible + .upload { outline: max(2px, calc(3 * var(--u))) solid var(--color-azul); outline-offset: 3px; }
+
+.upload__titulo {
+  font-size: max(16px, calc(40 * var(--u)));
+  line-height: 1.1;
+  font-weight: 500;
+  letter-spacing: var(--tracking-boton);
+}
+.upload__tipos {
+  font-size: max(var(--min-pequeno), calc(28 * var(--u)));
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: var(--tracking-pequeno);
+}
+
+.upload-list { list-style: none; margin: 0; padding: 0; }
+.upload-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: var(--campo-min);
+  border-bottom: 1px solid var(--color-linea-suave);
+  font-size: max(var(--min-pequeno), calc(28 * var(--u)));
+  font-weight: 500;
+  letter-spacing: var(--tracking-pequeno);
+}
+.upload-list__nombre { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.upload-list__peso { flex: none; color: var(--color-linea); }
+.upload-list button {
+  flex: none;
+  min-width: var(--campo-min);
+  min-height: var(--campo-min);
+  border: 0;
+  background: none;
+  color: var(--color-texto);
+  font: inherit;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* --- Casillas --- */
+.form-group--checks .form-label { margin-bottom: calc(14 * var(--u)); }
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: max(10px, calc(17 * var(--u)));
+  min-height: max(calc(46 * var(--u)), var(--campo-min));
+  cursor: pointer;
+  font-size: max(var(--min-pequeno), calc(26 * var(--u)));
+  line-height: calc(31 / 26);
+  font-weight: 500;
+  letter-spacing: var(--tracking-pequeno);
+  color: var(--color-notas);
+}
+.check input {
+  flex: none;
+  width: max(20px, calc(20 * var(--u)));
+  height: max(20px, calc(20 * var(--u)));
+  margin: 0 0 0 calc(8 * var(--u));
+  border: 1px solid var(--color-linea);
+  border-radius: 2px;
+  background: #fff;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+.check input:checked {
+  border-color: var(--color-texto);
+  background-color: var(--color-texto);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M3.5 8.5l3 3 6-7' stroke='white' stroke-width='2'/%3E%3C/svg%3E");
+  background-size: 100% 100%;
+}
+.check a { color: var(--color-texto); }
+.form-group--checks.is-invalid .check input { border-color: var(--color-error); }
+
+/* --- Enviar --- */
+.form-submit {
+  margin-top: calc(72 * var(--u));
+  margin-inline: calc(-3.5 * var(--u));
+  width: calc(842 * var(--u));
+  min-height: max(calc(98 * var(--u)), 52px);
+  font-size: max(17px, calc(40 * var(--u)));
+}
+.form-status {
+  margin: 16px 0 0;
+  text-align: center;
+  font-size: max(var(--min-pequeno), calc(26 * var(--u)));
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: var(--tracking-pequeno);
+}
+.form-status--error { color: var(--color-error); }
+.form-status--info { color: var(--color-notas); }
