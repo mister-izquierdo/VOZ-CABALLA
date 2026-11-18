@@ -1,0 +1,191 @@
+---
+/**
+ * VOZ CABALLA · pages/testimonio/[numero].astro
+ * Ficha individual de un testimonio publicado. Dirección única: /testimonio/002
+ * Se genera en el servidor, con título y descripción propios para buscadores y redes.
+ */
+export const prerender = false;
+
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import PanelCompartir from '../../components/PanelCompartir.astro';
+import { botonCompartirHtml } from '../../lib/plantillas';
+import {
+  archivosDelTestimonio, contarPublicados, existeImagen, obtenerTestimonio, urlArchivoPublico, urlImagenCompartir,
+} from '../../lib/supabase-publico';
+import {
+  type ArchivoPublico, type TestimonioPublico,
+  etiquetaCategoria, extracto, fechaCorta, fechaLarga, numeroTexto, rutaFicha, variableColor,
+} from '../../lib/testimonios';
+
+const numero = Number.parseInt(Astro.params.numero ?? '', 10);
+
+let t: TestimonioPublico | null = null;
+let archivos: ArchivoPublico[] = [];
+let voces = 0;
+let fallo = false;
+if (Number.isInteger(numero) && numero > 0) {
+  try {
+    t = await obtenerTestimonio(numero);
+    if (t) [archivos, voces] = await Promise.all([archivosDelTestimonio(t.id), contarPublicados()]);
+  } catch (error) {
+    console.error('Error al cargar el testimonio:', error);
+    fallo = true;
+  }
+}
+
+if (!t && !fallo) Astro.response.status = 404;
+if (fallo) Astro.response.status = 503;
+// Si se retira un testimonio, debe desaparecer rápido
+Astro.response.headers.set('Cache-Control', t ? 'public, max-age=0, s-maxage=60' : 'no-store');
+
+const origen = Astro.url.origin;
+const num = t ? numeroTexto(t.numero_publico) : '';
+const sensible = t?.contenido_sensible ?? false;
+const titulo = t ? (sensible ? 'Testimonio con contenido sensible' : t.frase_destacada) : 'Testimonio no encontrado';
+const descripcion = t
+  ? sensible
+    ? 'Este testimonio contiene contenido sensible. Ábrelo con precaución.'
+    : extracto(t.testimonio, 155)
+  : 'Este testimonio no existe o ya no está disponible.';
+
+// Imagen que se ve al pegar el enlace en WhatsApp, X o Facebook: la propia del testimonio si existe
+let imagenCompartir = `${origen}/og-default.png`;
+if (t) {
+  const propia = urlImagenCompartir(t.numero_publico, String(Date.parse(t.publicado_en)));
+  if (await existeImagen(propia)) imagenCompartir = propia;
+}
+
+const adjuntos = archivos.map((a) => ({ ...a, url: urlArchivoPublico(a.ruta_publica) }));
+const imagenes = adjuntos.filter((a) => a.tipo_mime.startsWith('image/')).map((a) => a.url).slice(0, 4);
+---
+
+<Layout
+  title={t ? `${num} · ${titulo} · VOZ CABALLA` : 'Testimonio no encontrado · VOZ CABALLA'}
+  description={descripcion}
+  canonical={t ? `${origen}${rutaFicha(t.numero_publico)}` : undefined}
+  ogImage={imagenCompartir}
+  ogType={t ? 'article' : 'website'}
+  noindex={!t}
+>
+  <Header current="testimonios" voces={voces} />
+
+  <main class="ficha-pagina" data-voces={voces}>
+    <div class="ficha-pagina__columna">
+      <a class="ficha-volver" href="/testimonios">← Volver a testimonios</a>
+
+      {
+        t ? (
+          <article class="ficha">
+            <div class="ficha__cabecera">
+              <p class="ficha__meta">
+                {num} · <time datetime={t.publicado_en}>{fechaCorta(t.publicado_en)}</time>
+              </p>
+              <Fragment set:html={botonCompartirHtml(t, imagenes)} />
+            </div>
+
+            <p class="ficha__etiquetas">
+              <span class="etiqueta etiqueta--cat" style={`--cat: var(${variableColor(t.categoria)})`}>
+                {etiquetaCategoria(t.categoria, t.categoria_otra)}
+              </span>
+              {sensible && <span class="etiqueta etiqueta--sensible">Contenido sensible</span>}
+            </p>
+
+            {sensible ? (
+              <details class="ficha__sensible">
+                <summary>Este testimonio contiene contenido sensible. Pulsa para leerlo con precaución.</summary>
+                <h1 class="ficha__frase">{t.frase_destacada}</h1>
+                <p class="ficha__autor">{t.nombre_publico}</p>
+                <h2 class="sr-only">Testimonio</h2>
+                <p class="ficha__texto">{t.testimonio}</p>
+                <h2 class="sr-only">¿Qué consecuencias sigue sufriendo?</h2>
+                <p class="ficha__texto">{t.consecuencias}</p>
+              </details>
+            ) : (
+              <>
+                <h1 class="ficha__frase">{t.frase_destacada}</h1>
+                <p class="ficha__autor">{t.nombre_publico}</p>
+                <hr class="ficha__linea" />
+                <h2 class="sr-only">Testimonio</h2>
+                <p class="ficha__texto">{t.testimonio}</p>
+                <h2 class="sr-only">¿Qué consecuencias sigue sufriendo?</h2>
+                <p class="ficha__texto">{t.consecuencias}</p>
+              </>
+            )}
+
+            {
+              adjuntos.length > 0 && (
+                <>
+                  <hr class="ficha__linea" />
+                  <h2 class="ficha__apartado">Archivos</h2>
+                  <ul class="miniaturas">
+                    {adjuntos.map((a, i) => (
+                      <li>
+                        {a.tipo_mime.startsWith('image/') && (
+                          <button type="button" class="miniatura" data-visor data-tipo="imagen" data-src={a.url} aria-label={`Ver imagen ${i + 1} en pantalla completa`}>
+                            <img src={a.url} alt={`Archivo adjunto ${i + 1} del testimonio ${num}`} loading="lazy" decoding="async" />
+                          </button>
+                        )}
+                        {a.tipo_mime.startsWith('video/') && (
+                          <button type="button" class="miniatura miniatura--video" data-visor data-tipo="video" data-src={a.url} aria-label={`Reproducir vídeo ${i + 1}`}>
+                            <video src={`${a.url}#t=0.1`} preload="metadata" muted playsinline tabindex="-1"></video>
+                            <span class="miniatura__play" aria-hidden="true"></span>
+                          </button>
+                        )}
+                        {a.tipo_mime === 'application/pdf' && (
+                          <a class="miniatura miniatura--pdf" href={a.url} target="_blank" rel="noopener noreferrer" aria-label={`Abrir documento PDF ${i + 1}`}>
+                            <span>PDF</span>
+                          </a>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )
+            }
+
+            <hr class="ficha__linea" />
+            <p class="ficha__documentacion">
+              {t.estado_documental === 'documentacion_revisada' ? (
+                <span class="sello sello--revisada">Documentación revisada</span>
+              ) : (
+                <span class="sello sello--sin">Sin documentación aportada</span>
+              )}
+            </p>
+            <p class="ficha__nota">
+              {t.estado_documental === 'documentacion_revisada'
+                ? 'El equipo ha comprobado que los documentos aportados parecen coherentes con el relato. No es una verificación judicial de los hechos.'
+                : 'Este testimonio se publica sin documentación aportada. Es el relato de la persona y no una verificación judicial de los hechos.'}
+              VOZ CABALLA no es un canal oficial de denuncias.
+            </p>
+          </article>
+        ) : (
+          <div class="ficha ficha--vacia">
+            <h1 class="ficha__frase">{fallo ? 'No hemos podido cargar este testimonio' : 'Testimonio no encontrado'}</h1>
+            <p class="ficha__texto">
+              {fallo ? 'Inténtalo de nuevo en unos minutos.' : 'Este testimonio no existe o ya no está disponible.'}
+            </p>
+          </div>
+        )
+      }
+
+      <div class="ficha-cta">
+        <p class="ficha-cta__texto">¿Viviste los acontecimientos? <strong>Tu historia importa.</strong></p>
+        <a class="btn-rojo" href="/expresate">Comenzar con respeto</a>
+      </div>
+    </div>
+  </main>
+
+  <dialog class="visor" id="visor" aria-label="Archivo adjunto">
+    <button type="button" class="visor__cerrar" data-visor-cerrar aria-label="Cerrar">×</button>
+    <div class="visor__contenido" data-visor-contenido></div>
+  </dialog>
+
+  <PanelCompartir />
+  <Footer />
+
+  <script>
+    import '../../scripts/visor';
+  </script>
+</Layout>

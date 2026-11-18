@@ -22,6 +22,9 @@
   height: calc(var(--safe-top) + (var(--header-top) + 450 - 210 * var(--p)) * var(--u));
 }
 
+/* Home: misma cabecera, pero sin fijarse ni encogerse */
+.site-header--static { position: absolute; }
+
 /* Hueco en la página para que el contenido empiece bajo la cabecera expandida.
    El contenido sube con el scroll exactamente lo que se encoge la cabecera,
    así nunca queda un hueco ni hay saltos. */

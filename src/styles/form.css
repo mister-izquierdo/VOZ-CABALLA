@@ -88,7 +88,7 @@
   font-size: max(var(--min-texto), calc(34 * var(--u)));
   line-height: 1;
   font-weight: 500;
-  letter-spacing: var(--tracking-cuerpo);
+  letter-spacing: var(--tracking-lectura);
   color: var(--color-texto);
 }
 
@@ -313,3 +313,32 @@ input:focus-visible + .upload { outline: max(2px, calc(3 * var(--u))) solid var(
 }
 .form-status--error { color: var(--color-error); }
 .form-status--info { color: var(--color-notas); }
+
+/* --- Campo trampa (fuera de pantalla, invisible para personas) --- */
+.form-trampa {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* --- Captcha --- */
+.form-captcha {
+  display: flex;
+  justify-content: center;
+  margin-top: calc(40 * var(--u));
+}
+
+/* --- Mensaje de agradecimiento --- */
+.form-gracias { text-align: center; padding-block: calc(90 * var(--u)); }
+.form-gracias .form-card__title { margin-top: 0; }
+.form-gracias__volver {
+  display: inline-block;
+  margin-top: calc(48 * var(--u));
+  padding: 12px;
+  font-size: max(var(--min-texto), calc(34 * var(--u)));
+  font-weight: 500;
+  letter-spacing: var(--tracking-cuerpo);
+  color: var(--color-texto);
+}

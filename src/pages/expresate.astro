@@ -4,6 +4,7 @@
  * Formulario de testimonios (diseño EXPRESATE.svg).
  * Por ahora solo valida en el navegador; el envío se conecta en el siguiente paso.
  */
+export const prerender = true; // página estática: se genera una sola vez
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -15,8 +16,8 @@ const dias = diasTranscurridos();
 ---
 
 <Layout
-  title="Exprésate · VOZ CABALLA"
-  description="Cuenta tu historia: comparte tu testimonio y las consecuencias que sigues sufriendo. Detrás de cada cifra hay una historia."
+  title="Comparte tu historia de Ceuta | Voz Caballa"
+  description="Comparte tu testimonio en Voz Caballa. Un espacio ciudadano para preservar las historias y experiencias de personas de Ceuta."
 >
   <Header current="expresate" />
 
@@ -37,7 +38,7 @@ const dias = diasTranscurridos();
 
       <!-- Nombre -->
       <fieldset class="form-group form-group--radios">
-        <legend class="form-label">Nombre</legend>
+        <legend class="form-label"></legend>
         <label class="radio">
           <input type="radio" name="anonimato" value="anonimo" checked />
           <span>Anónimo</span>
@@ -212,7 +213,7 @@ const dias = diasTranscurridos();
           <input type="checkbox" name="acepta_privacidad" />
           <span
             >Acepto la
-            <a href="/politica-de-privacidad" target="_blank" rel="noopener">política de privacidad</a>.</span
+            <a href="/politica-de-privacidad" target="_blank" rel="noopener"> política de privacidad</a>.</span
           >
         </label>
         <label class="check" id="check-archivos">
@@ -222,13 +223,37 @@ const dias = diasTranscurridos();
         <p class="form-error" id="consentimientos-error" hidden></p>
       </fieldset>
 
+      <!-- Campo trampa contra robots: las personas no lo ven; los robots lo rellenan -->
+      <div class="form-trampa" aria-hidden="true">
+        <label>
+          No rellenes este campo
+          <input type="text" name="sitio_web" tabindex="-1" autocomplete="off" />
+        </label>
+      </div>
+
+      <!-- Comprobación de seguridad (Cloudflare Turnstile) -->
+      <div class="form-captcha" id="captcha"></div>
+
       <button class="btn-rojo form-submit" type="submit">Enviar Testimonio</button>
       <p class="form-status" id="form-estado" role="status" hidden></p>
     </form>
+
+    <!-- Mensaje de agradecimiento (sustituye al formulario cuando el envío sale bien) -->
+    <section class="form-card form-gracias" id="gracias" aria-labelledby="gracias-titulo" hidden>
+      <h1 class="form-card__title" id="gracias-titulo">GRACIAS POR ALZAR TU VOZ</h1>
+      <p class="form-card__lead">
+        Hemos recibido tu testimonio. Lo revisaremos antes de publicarlo y, si hay algún problema,
+        te escribiremos a tu forma de contacto.
+      </p>
+      <p class="form-error" id="gracias-aviso" hidden></p>
+      <a class="form-gracias__volver" href="/">Volver al inicio</a>
+    </section>
   </main>
 
   <Footer />
 
+  <!-- Script de Cloudflare Turnstile (comprobación anti-robots) -->
+  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
   <script>
     import '../scripts/formulario';
   </script>

@@ -1,19 +1,145 @@
 ---
 /**
  * VOZ CABALLA · pages/testimonios.astro
- * PROVISIONAL: solo cabecera y pie. El archivo de testimonios se construye después.
+ * Archivo público de testimonios: buscador, categorías y fichas (diseño TESTIMONIOS.svg).
+ * Se genera en el servidor en cada visita, así un testimonio recién publicado aparece al instante.
  */
+export const prerender = false;
+
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import PanelCompartir from '../components/PanelCompartir.astro';
+import { CATEGORIAS } from '../lib/categorias';
+import { listaHtml } from '../lib/plantillas';
+import { SITIO } from '../lib/sitio';
+import { buscarTestimonios, contarPublicados } from '../lib/supabase-publico';
+
+const q = (Astro.url.searchParams.get('q') ?? '').slice(0, 80).trim();
+const categoriaParam = Astro.url.searchParams.get('categoria') ?? '';
+const categoria = CATEGORIAS.some((c) => c.valor === categoriaParam) ? categoriaParam : '';
+const pagina = Math.min(200, Math.max(1, Number.parseInt(Astro.url.searchParams.get('pagina') ?? '1', 10) || 1));
+
+let items: Awaited<ReturnType<typeof buscarTestimonios>>['items'] = [];
+let total = 0;
+let voces = 0;
+let fallo = false;
+try {
+  const r = await buscarTestimonios({ q, categoria, desde: (pagina - 1) * SITIO.porPagina, limite: SITIO.porPagina });
+  items = r.items;
+  total = r.total;
+  voces = await contarPublicados();
+} catch (error) {
+  console.error('Error al cargar los testimonios:', error);
+  fallo = true;
+}
+const hayMas = pagina * SITIO.porPagina < total;
+
+/** Dirección de la lista con los filtros cambiados. */
+function enlace(cambios: Record<string, string | number | null>): string {
+  const p = new URLSearchParams();
+  const base: Record<string, string | number | null> = { q: q || null, categoria: categoria || null, pagina: null, ...cambios };
+  for (const [k, v] of Object.entries(base)) if (v !== null && v !== '') p.set(k, String(v));
+  const texto = p.toString();
+  return '/testimonios' + (texto ? '?' + texto : '');
+}
+
+// La página cambia al publicar o retirar testimonios: nunca se guarda mucho tiempo en caché
+Astro.response.headers.set('Cache-Control', 'public, max-age=0, s-maxage=30');
 ---
 
-<Layout title="Testimonios · VOZ CABALLA">
-  <Header current="testimonios" />
-  <main>
-    <p class="provisional">Aquí irán los testimonios.</p>
-    <!-- Altura de prueba para poder hacer scroll y ver cómo se encoge la cabecera. Se quitará. -->
-    <div style="height: 1800px" aria-hidden="true"></div>
+<Layout
+  title="Testimonios de Ceuta | Archivo ciudadano | Voz Caballa"
+  description="Lee historias y testimonios de personas de Ceuta. Explora el archivo ciudadano de Voz Caballa por categorías y encuentra relatos en primera persona."
+  canonical="https://vozcaballa.com/testimonios"
+  ogImage="https://vozcaballa.com/og-default.png"
+  noindex={Boolean(q || categoria || pagina > 1)}
+>
+  <Header current="testimonios" voces={voces} />
+
+  <main class="testimonios" data-testimonios data-hay-mas={hayMas ? 'si' : 'no'} data-pagina={pagina} data-voces={voces}>
+    <div class="testimonios__columna">
+      <h1 class="sr-only">Testimonios de los ceutíes</h1>
+
+      <form class="buscador" role="search" method="get" action="/testimonios" data-buscador>
+        <svg class="buscador__lupa" viewBox="-2 -2 46 46" fill="none" aria-hidden="true">
+          <circle cx="15.5" cy="15.5" r="15.5" stroke="currentColor" stroke-width="3" />
+          <path d="M41.1 41.9 25.1 25.9" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+        </svg>
+        <label class="sr-only" for="buscar">Buscar testimonios</label>
+        <input
+          class="buscador__campo"
+          id="buscar"
+          name="q"
+          type="search"
+          value={q}
+          maxlength="80"
+          placeholder="Buscar..."
+          autocomplete="off"
+          enterkeyhint="search"
+        />
+        {categoria && <input type="hidden" name="categoria" value={categoria} />}
+      </form>
+
+      <nav class="categorias" aria-label="Categorías">
+        <ul class="categorias__lista" data-categorias>
+          {
+            CATEGORIAS.map((c) => {
+              const activa = c.valor === categoria;
+              return (
+                <li>
+                  <a
+                    class="chip"
+                    style={`--cat: var(${c.colorVar})`}
+                    href={enlace({ categoria: activa ? null : c.valor })}
+                    aria-current={activa ? 'true' : undefined}
+                    data-categoria={c.valor}>{c.etiqueta}</a
+                  >
+                </li>
+              );
+            })
+          }
+        </ul>
+      </nav>
+
+      <p class="sr-only" role="status" aria-live="polite" data-resumen>
+        {total} {total === 1 ? 'testimonio' : 'testimonios'}
+      </p>
+
+      <div class="lista" data-lista>
+        {fallo && <p class="lista__vacia">No hemos podido cargar los testimonios. Inténtalo de nuevo en unos minutos.</p>}
+        {
+          !fallo && items.length === 0 && (
+            <p class="lista__vacia">
+              {q || categoria
+                ? 'No hay testimonios que coincidan con tu búsqueda.'
+                : 'Todavía no hay testimonios publicados. Sé la primera voz.'}
+              {!q && !categoria && (
+                <>
+                  {' '}
+                  <a href="/expresate">Cuenta tu historia</a>
+                </>
+              )}
+            </p>
+          )
+        }
+        <Fragment set:html={listaHtml(items)} />
+      </div>
+
+      {
+        hayMas && (
+          <a class="ver-mas" href={enlace({ pagina: pagina + 1 })} data-ver-mas>
+            Ver más testimonios...
+          </a>
+        )
+      }
+    </div>
   </main>
+
+  <PanelCompartir />
   <Footer />
+
+  <script>
+    import '../scripts/testimonios';
+  </script>
 </Layout>

@@ -1,0 +1,53 @@
+---
+/**
+ * VOZ CABALLA · components/PanelCompartir.astro
+ * Panel que se abre desde el avión de papel de cualquier ficha.
+ * Su comportamiento está en scripts/compartir.ts.
+ */
+---
+
+<dialog class="panel-compartir" id="panel-compartir" aria-labelledby="panel-compartir-titulo">
+  <div class="panel-compartir__contenido">
+    <div class="panel-compartir__cabecera">
+      <h2 class="panel-compartir__titulo" id="panel-compartir-titulo">Compartir testimonio <span data-panel-numero></span></h2>
+      <button type="button" class="panel-compartir__cerrar" data-panel-cerrar aria-label="Cerrar">×</button>
+    </div>
+
+    <ul class="panel-compartir__lista">
+      <li>
+        <button type="button" class="panel-compartir__opcion" data-accion="stories">
+          Instagram Stories
+          <small>Se abre el menú de tu móvil con la imagen lista: elige Instagram</small>
+        </button>
+      </li>
+      <li>
+        <button type="button" class="panel-compartir__opcion" data-accion="estado">
+          Estado de WhatsApp
+          <small>Se abre el menú de tu móvil con la imagen lista: elige WhatsApp</small>
+        </button>
+      </li>
+      <li>
+        <button type="button" class="panel-compartir__opcion" data-accion="whatsapp">
+          WhatsApp
+          <small>Con vista previa: imagen, título y enlace</small>
+        </button>
+      </li>
+      <li>
+        <button type="button" class="panel-compartir__opcion" data-accion="facebook">
+          Facebook
+          <small>Con la imagen</small>
+        </button>
+      </li>
+      <li>
+        <button type="button" class="panel-compartir__opcion" data-accion="x">
+          X
+          <small>Con la imagen y el enlace</small>
+        </button>
+      </li>
+      <li><button type="button" class="panel-compartir__opcion" data-accion="copiar">Copiar enlace</button></li>
+    </ul>
+
+    <button type="button" class="panel-compartir__descargar" data-accion="descargar">Descargar imagen</button>
+    <p class="panel-compartir__estado" role="status" aria-live="polite" data-panel-estado hidden></p>
+  </div>
+</dialog>

@@ -1,6 +1,6 @@
 /* =====================================================================
    VOZ CABALLA · counters.css
-   Aspecto de los contadores (días y voces). Se usa en la cabecera y en la Home.
+   Aspecto de los contadores (días y voces). Se usa en la cabecera (Home incluida).
    ===================================================================== */
 
 .counter { text-align: center; }
@@ -27,17 +27,4 @@
 .counters__divider {
   width: max(1px, calc(2 * var(--u)));
   background: var(--color-texto);
-}
-
-/* Versión de la Home: contadores grandes y centrados, sin posicionamiento absoluto */
-.counters--home {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: calc(55 * var(--u));
-}
-.counters--home .counters__divider {
-  align-self: flex-start;
-  height: calc(129 * var(--u));
-  margin-top: calc(9.6 * var(--u));
 }

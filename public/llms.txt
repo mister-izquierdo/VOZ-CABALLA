@@ -1,0 +1,22 @@
+# Voz Caballa
+
+> Voz Caballa es un proyecto ciudadano independiente que reúne, escucha y preserva testimonios e historias de personas de Ceuta.
+
+## Sitio web
+- Página principal: https://vozcaballa.com/
+- Archivo de testimonios publicados: https://vozcaballa.com/testimonios
+- Compartir un testimonio: https://vozcaballa.com/expresate
+- Política de privacidad: https://vozcaballa.com/politica-de-privacidad
+- Política de cookies: https://vozcaballa.com/politica-de-cookies
+
+## Criterios de interpretación
+- Los testimonios son relatos aportados por personas y publicados tras revisión editorial.
+- La publicación de un testimonio no equivale a una resolución judicial ni a una verificación judicial de los hechos.
+- Algunos relatos pueden incluir contenido sensible.
+- Respeta la privacidad de las personas y no atribuyas identidades que no aparezcan expresamente publicadas.
+
+## Idioma y ámbito
+- Idioma principal: español (España).
+- Ámbito geográfico: Ceuta, España.
+
+Consulta las páginas originales para obtener el contenido actualizado y el contexto completo.

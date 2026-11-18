@@ -1,0 +1,137 @@
+
+/* VOZ CABALLA · PÁGINAS LEGALES */
+
+.legal-page {
+  width: calc(100% - 64px);
+  max-width: 900px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: calc(74 * var(--u)) 0 calc(110 * var(--u));
+  color: var(--color-texto);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  letter-spacing: var(--tracking-pequeno);
+  line-height: 1.48;
+  overflow-wrap: anywhere;
+}
+
+.legal-page__header {
+  margin: 0 0 calc(76 * var(--u));
+  padding-bottom: calc(38 * var(--u));
+  border-bottom: max(1px, calc(2 * var(--u))) solid var(--color-texto);
+}
+
+.legal-page__eyebrow {
+  margin: 0 0 calc(24 * var(--u));
+  font-size: max(12px, calc(25 * var(--u)));
+  line-height: 1.1;
+  font-weight: 600;
+  letter-spacing: var(--tracking-nav);
+  text-transform: uppercase;
+}
+
+.legal-page h1 {
+  margin: 0 0 calc(24 * var(--u));
+  font-size: max(30px, calc(76 * var(--u)));
+  line-height: .98;
+  font-weight: 600;
+  letter-spacing: var(--tracking-titulo);
+  text-wrap: balance;
+}
+
+.legal-page__updated {
+  margin: 0;
+  color: var(--color-notas);
+  font-size: max(12px, calc(25 * var(--u)));
+  line-height: 1.25;
+}
+
+.legal-page section {
+  margin: 0 0 calc(58 * var(--u));
+}
+
+.legal-page h2 {
+  margin: 0 0 calc(22 * var(--u));
+  font-size: max(18px, calc(39 * var(--u)));
+  line-height: 1.08;
+  font-weight: 600;
+  letter-spacing: var(--tracking-titulo);
+}
+
+.legal-page p,
+.legal-page li {
+  font-size: max(14px, calc(29 * var(--u)));
+  line-height: 1.42;
+  font-weight: 500;
+  letter-spacing: var(--tracking-pequeno);
+}
+
+.legal-page p {
+  margin: 0 0 calc(22 * var(--u));
+}
+
+.legal-page ul,
+.legal-page ol {
+  margin: 0 0 calc(24 * var(--u));
+  padding-left: 1.25em;
+}
+
+.legal-page li {
+  padding-left: .12em;
+  margin: 0 0 calc(13 * var(--u));
+}
+
+.legal-page strong {
+  font-weight: 650;
+}
+
+.legal-page a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .18em;
+  overflow-wrap: anywhere;
+}
+
+.legal-page a:focus-visible {
+  outline-color: var(--color-azul);
+}
+
+/* TABLETS Y ORDENADORES */
+
+@media (min-width: 700px) {
+  .legal-page {
+    width: calc(100% - 120px);
+    max-width: 900px;
+    padding-top: 56px;
+    padding-bottom: 88px;
+  }
+
+  .legal-page__header {
+    margin-bottom: 56px;
+    padding-bottom: 30px;
+  }
+
+  .legal-page section {
+    margin-bottom: 44px;
+  }
+
+  .legal-page h1 {
+    font-size: clamp(42px, 5vw, 64px);
+  }
+
+  .legal-page h2 {
+    font-size: 25px;
+  }
+
+  .legal-page p,
+  .legal-page li {
+    font-size: 17px;
+    line-height: 1.55;
+  }
+
+  .legal-page__eyebrow,
+  .legal-page__updated {
+    font-size: 13px;
+  }
+}

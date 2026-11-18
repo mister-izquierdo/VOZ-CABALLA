@@ -1,0 +1,20 @@
+---
+/**
+ * VOZ CABALLA · pages/admin.astro
+ * Panel de administración (privado). La página es solo la "carcasa": todo el contenido
+ * se carga después de iniciar sesión (correo, contraseña y verificación en dos pasos),
+ * y la base de datos solo entrega datos a una sesión de administrador.
+ */
+export const prerender = true;
+
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Administración · VOZ CABALLA" description="Panel privado de VOZ CABALLA." noindex>
+  <div class="admin" id="admin" data-admin>
+    <noscript><p class="vacio">El panel necesita JavaScript activado.</p></noscript>
+  </div>
+  <script>
+    import '../scripts/admin';
+  </script>
+</Layout>

@@ -1,16 +1,228 @@
+
 ---
-/**
- * VOZ CABALLA · pages/politica-de-cookies.astro
- * PROVISIONAL: el texto legal se redactará más adelante.
- */
+export const prerender = true;
+
 import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+
+const updated = '17 de noviembre de 2026';
 ---
 
-<Layout title="Política de cookies · VOZ CABALLA">
-  <main>
-    <p class="provisional">Política de cookies: texto pendiente de redactar.</p>
-    <p class="provisional"><a href="/">Volver al inicio</a></p>
+<Layout
+  title="Política de cookies | Voz Caballa"
+  description="Información sobre las cookies y tecnologías similares utilizadas por Voz Caballa."
+>
+  <Header />
+
+  <main class="legal-page">
+    <div class="legal-page__inner">
+
+      <header class="legal-page__header">
+        <p class="legal-page__eyebrow">VOZ CABALLA</p>
+        <h1>Política de cookies</h1>
+        <p class="legal-page__updated">
+          Última actualización: {updated}
+        </p>
+      </header>
+
+      <div class="legal-page__content">
+
+        <section>
+          <h2>1. Qué son las cookies</h2>
+
+          <p>
+            Las cookies son pequeños archivos o identificadores que un sitio
+            web puede almacenar en el navegador o dispositivo del usuario.
+            También existen tecnologías similares, como el almacenamiento
+            local o de sesión, que permiten recordar información o mantener
+            determinadas funciones técnicas.
+          </p>
+
+          <p>
+            Estas tecnologías pueden utilizarse para garantizar el
+            funcionamiento de una página, recordar preferencias, obtener
+            estadísticas o gestionar servicios externos.
+          </p>
+        </section>
+
+        <section>
+          <h2>2. Qué tecnologías utiliza Voz Caballa</h2>
+
+          <p>
+            La configuración técnica del sitio puede utilizar almacenamiento
+            de sesión y servicios de seguridad necesarios para el
+            funcionamiento de formularios y la prevención de envíos
+            automatizados.
+          </p>
+
+          <p>
+            En particular, el formulario puede integrar Cloudflare Turnstile,
+            un servicio de seguridad prestado por Cloudflare que ayuda a
+            distinguir el tráfico legítimo de la actividad automatizada.
+          </p>
+
+          <p>
+            La presencia, duración, finalidad y titularidad de cada cookie
+            o tecnología equivalente deben comprobarse en la versión
+            publicada del sitio y en los distintos navegadores.
+          </p>
+
+          <p>
+            Por ese motivo, esta política no atribuye nombres, duraciones o
+            finalidades a cookies concretas que no hayan sido verificadas.
+          </p>
+        </section>
+
+        <section>
+          <h2>3. Cookies técnicas o necesarias</h2>
+
+          <p>
+            Las tecnologías estrictamente necesarias para transmitir una
+            comunicación, prestar un servicio expresamente solicitado por
+            el usuario, mantener la seguridad o permitir el funcionamiento
+            básico del sitio pueden utilizarse sin consentimiento cuando
+            cumplan los requisitos legales de exención.
+          </p>
+
+          <p>
+            Por ejemplo, puede ser necesario mantener temporalmente
+            información de sesión o realizar comprobaciones técnicas de
+            seguridad en los formularios.
+          </p>
+
+          <p>
+            Los servicios de terceros integrados en el sitio pueden tratar
+            datos técnicos, como la dirección IP y características del
+            navegador, para prestar esas funciones.
+          </p>
+
+          <p>
+            Puedes consultar la información de privacidad del proveedor:
+            <a
+              href="https://www.cloudflare.com/privacypolicy/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Política de privacidad de Cloudflare
+            </a>.
+          </p>
+        </section>
+
+        <section>
+          <h2>4. Cookies de análisis, publicidad y personalización</h2>
+
+          <p>
+            Esta política no declara que Voz Caballa utilice cookies de
+            analítica, publicidad comportamental o personalización.
+          </p>
+
+          <p>
+            Si en el futuro se incorporan herramientas de este tipo, se
+            actualizará esta política y se solicitará el consentimiento
+            previo cuando sea legalmente exigible.
+          </p>
+
+          <p>
+            El usuario deberá poder aceptar, rechazar o configurar las
+            cookies no necesarias antes de que se instalen o activen,
+            mediante un sistema de gestión de preferencias adecuado.
+          </p>
+        </section>
+
+        <section>
+          <h2>5. Cómo gestionar las cookies desde el navegador</h2>
+
+          <p>
+            El usuario puede permitir, bloquear o eliminar cookies mediante
+            la configuración de su navegador.
+          </p>
+
+          <p>
+            La forma de hacerlo depende del navegador y de su versión.
+            Generalmente, estas opciones se encuentran en los apartados
+            de privacidad, seguridad o configuración de datos de navegación.
+          </p>
+
+          <p>
+            El bloqueo de tecnologías estrictamente necesarias puede afectar
+            al funcionamiento de algunas partes del sitio, especialmente
+            los formularios o las funciones de seguridad.
+          </p>
+        </section>
+
+        <section>
+          <h2>6. Cambios en esta política</h2>
+
+          <p>
+            La configuración de cookies y tecnologías similares puede
+            cambiar por actualizaciones del sitio o de sus proveedores.
+          </p>
+
+          <p>
+            Esta política se revisará cuando se incorporen, retiren o
+            modifiquen tecnologías relevantes.
+          </p>
+        </section>
+
+        <section>
+          <h2>7. Contacto</h2>
+
+          <p>
+            Para cualquier consulta relacionada con esta política o con
+            el uso de cookies en Voz Caballa, puedes escribir a:
+          </p>
+
+          <p>
+            <a href="mailto:info.mr.izquierdo@gmail.com">
+              info.mr.izquierdo@gmail.com
+            </a>
+          </p>
+
+          <p>
+            Dirección de contacto: C. Velarde, 25, 51001 Ceuta, España.
+          </p>
+        </section>
+
+      </div>
+    </div>
   </main>
+
   <Footer />
 </Layout>
+
+
+<style>
+  /* VOZ CABALLA · CONTENEDOR DE PÁGINAS LEGALES */
+
+  main.legal-page {
+    width: 100%;
+    max-width: none;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 74px 32px 110px;
+  }
+
+  .legal-page__inner {
+    width: 100%;
+    max-width: 820px;
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .legal-page__content {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  @media (min-width: 700px) {
+    main.legal-page {
+      padding: 56px 60px 88px;
+    }
+
+    .legal-page__inner {
+      max-width: 900px;
+    }
+  }
+</style>

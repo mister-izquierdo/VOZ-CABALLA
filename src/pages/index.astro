@@ -3,27 +3,28 @@
  * VOZ CABALLA · pages/index.astro  (HOME)
  * Logotipo, contadores, mensaje del proyecto, aviso de respeto y un único botón.
  */
+export const prerender = true; // página estática: se genera una sola vez
 import Layout from '../layouts/Layout.astro';
-import Counters from '../components/Counters.astro';
+import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 ---
 
-<Layout title="VOZ CABALLA · Testimonios ciudadanos de Ceuta">
+<Layout
+  title="Voz Caballa | Testimonios e historias ciudadanas de Ceuta"
+  description="Voz Caballa es un espacio ciudadano para escuchar, reunir y preservar testimonios e historias de personas de Ceuta. Detrás de cada cifra hay una historia."
+  ogImage="https://vozcaballa.com/og-default.png"
+>
+  <Header current="home" />
   <main class="home">
     <div class="home__column">
-      <h1 class="sr-only">VOZ CABALLA: archivo de testimonios ciudadanos de Ceuta</h1>
-      <img class="home__logo" src="/logo.svg" alt="VOZ CABALLA" width="623" height="96" />
-
-      <Counters variant="home" />
-
       <section class="home__card-wrap" aria-labelledby="home-titulo">
         <p class="home__pill">¿Viviste los acontecimientos?</p>
         <div class="home__card">
-          <h2 class="home__card-title" id="home-titulo">TU HISTORIA IMPORTA</h2>
+          <h1 class="home__card-title" id="home-titulo">TU HISTORIA IMPORTA</h1>
           <div class="home__card-body">
             <p>
-              Las consecuencias continúan. Este es un espacio para preservar las historias de los
-              ceutíes...
+              Voz Caballa es un espacio ciudadano para escuchar, reunir y preservar los testimonios
+              y las historias de personas de Ceuta.
             </p>
             <p>Porque detrás de cada cifra hay una historia.</p>
           </div>

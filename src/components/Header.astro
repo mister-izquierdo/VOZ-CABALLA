@@ -1,37 +1,48 @@
 ---
 /**
  * VOZ CABALLA · components/Header.astro
- * Cabecera de Exprésate y Testimonios: botones de navegación, logotipo y contadores.
- * Se encoge al hacer scroll (ver styles/header.css y scripts/header-scroll.ts).
+ * Cabecera: botones de navegación, logotipo y contadores.
+ *  - Exprésate y Testimonios: fija, se encoge al hacer scroll (styles/header.css y scripts/header-scroll.ts).
+ *  - Home: mismo logotipo y contadores en la misma posición, pero sin botones y sin encogerse
+ *    (se desplaza con la página). Así no "saltan" al navegar entre páginas.
  */
 import Counters from './Counters.astro';
 
 interface Props {
-  current: 'expresate' | 'testimonios';
+  current: 'home' | 'expresate' | 'testimonios';
+  voces?: number;
 }
-const { current } = Astro.props;
+const { current, voces = 0 } = Astro.props;
+const esHome = current === 'home';
 ---
 
-<header class="site-header" data-site-header>
+<header
+  class:list={['site-header', { 'site-header--static': esHome }]}
+  data-site-header={esHome ? undefined : ''}
+>
   <div class="site-header__inner">
-    <nav class="site-header__nav" aria-label="Principal">
-      <a
-        href="/expresate"
-        class:list={['nav-link', { 'is-active': current === 'expresate' }]}
-        aria-current={current === 'expresate' ? 'page' : undefined}>Exprésate</a
-      >
-      <a
-        href="/testimonios"
-        class:list={['nav-link', { 'is-active': current === 'testimonios' }]}
-        aria-current={current === 'testimonios' ? 'page' : undefined}>Testimonios</a
-      >
-    </nav>
+    {
+      !esHome && (
+        <nav class="site-header__nav" aria-label="Principal">
+          <a
+            href="/expresate"
+            class:list={['nav-link', { 'is-active': current === 'expresate' }]}
+            aria-current={current === 'expresate' ? 'page' : undefined}>Exprésate</a
+          >
+          <a
+            href="/testimonios"
+            class:list={['nav-link', { 'is-active': current === 'testimonios' }]}
+            aria-current={current === 'testimonios' ? 'page' : undefined}>Testimonios</a
+          >
+        </nav>
+      )
+    }
 
     <a class="site-header__logo" href="/" aria-label="VOZ CABALLA, ir al inicio">
       <img src="/logo.svg" alt="VOZ CABALLA" width="623" height="96" />
     </a>
 
-    <Counters variant="header" />
+    <Counters variant="header" voces={voces} />
   </div>
 </header>
 <div class="site-header-spacer" aria-hidden="true"></div>

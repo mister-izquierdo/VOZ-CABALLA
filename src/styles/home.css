@@ -4,10 +4,7 @@
    ===================================================================== */
 
 .home {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-block: calc(60 * var(--u));
+  padding-bottom: calc(60 * var(--u));
 }
 
 .home__column {
@@ -18,15 +15,12 @@
   align-items: center;
 }
 
-.home__logo { display: block; width: calc(622.5 * var(--u)); height: auto; }
-
-.home .counters--home { margin-top: calc(60 * var(--u)); }
-
 /* Tarjeta con título amarillo */
 .home__card-wrap {
   position: relative;
   width: calc(727 * var(--u));
-  margin-top: calc(131 * var(--u));
+  /* La cabecera ya deja 74 unidades bajo los contadores; hasta la tarjeta de tu diseño hay 131 */
+  margin-top: calc(57.5 * var(--u));
 }
 
 .home__pill {
@@ -36,7 +30,7 @@
   top: calc(-30 * var(--u));
   display: grid;
   place-items: center;
-  width: calc(437 * var(--u));
+  width: calc(+497 * var(--u));
   height: calc(49 * var(--u));
   margin: 0;
   border: max(1px, calc(3 * var(--u))) solid var(--color-texto);
@@ -45,7 +39,7 @@
   font-size: calc(34 * var(--u));
   line-height: 1;
   font-weight: 500;
-  letter-spacing: var(--tracking-pastilla);
+  letter-spacing: var(--tracking-lectura);
   white-space: nowrap;
 }
 
@@ -75,7 +69,7 @@
   font-size: calc(34 * var(--u));
   line-height: calc(39 / 34);
   font-weight: 500;
-  letter-spacing: var(--tracking-cuerpo);
+  letter-spacing: var(--tracking-lectura);
 }
 .home__card-body p { margin: 0; }
 .home__card-body p + p { margin-top: calc(54 * var(--u)); }

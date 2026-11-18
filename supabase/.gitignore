@@ -1,0 +1,28 @@
+
+# Supabase
+.branches
+.temp
+
+# dotenvx
+.env.keys
+.env
+.env.*
+!.env.example
+
+# Variables y secretos locales de Cloudflare
+.dev.vars
+.dev.vars.*
+.wrangler/
+
+# Archivos locales
+.DS_Store
+Thumbs.db
+
+
+# Cloudflare Wrangler: archivos y datos locales
+.wrangler/
+.dev.vars
+.dev.vars.*
+
+# Archivos temporales del sistema
+Thumbs.db

@@ -1,3 +1,4 @@
+
 /**
  * VOZ CABALLA · scripts/formulario.ts
  * Comportamiento del formulario de Exprésate:
@@ -6,10 +7,21 @@
  *  - Contadores de caracteres
  *  - Archivos: tipo, tamaño y cantidad; arrastrar y soltar; quitar
  *  - Validación y mensajes de error
- * Todavía NO envía nada: el envío se conecta en el siguiente paso.
+ *  - Captcha (Cloudflare Turnstile), campo trampa y envío a Supabase
  */
 import { CATEGORIAS } from '../lib/categorias';
 import { REGLAS, esContactoValido, formatearBytes } from '../lib/formulario-reglas';
+import { enviarTestimonio, envioConfigurado } from '../lib/enviar-testimonio';
+
+declare global {
+  interface Window {
+    // API de Cloudflare Turnstile (la carga su script)
+    turnstile?: {
+      render: (contenedor: HTMLElement, opciones: Record<string, unknown>) => string;
+      reset: (id?: string) => void;
+    };
+  }
+}
 
 const form = document.querySelector<HTMLFormElement>('#form-testimonio');
 if (form) iniciar(form);
@@ -37,12 +49,20 @@ function iniciar(form: HTMLFormElement): void {
   const checkArchivos = $<HTMLElement>('check-archivos');
   const grupoConsentimientos = $<HTMLElement>('consentimientos');
   const estado = $<HTMLElement>('form-estado');
+  const botonEnviar = form.querySelector<HTMLButtonElement>('.form-submit')!;
+  const trampa = form.querySelector<HTMLInputElement>('[name="sitio_web"]')!;
+  const gracias = document.getElementById('gracias');
+  const graciasAviso = document.getElementById('gracias-aviso');
   const radios = Array.from(form.querySelectorAll<HTMLInputElement>('input[name="anonimato"]'));
   const aceptaPublicacion = form.querySelector<HTMLInputElement>('[name="acepta_publicacion"]')!;
   const aceptaPrivacidad = form.querySelector<HTMLInputElement>('[name="acepta_privacidad"]')!;
   const aceptaDerecho = form.querySelector<HTMLInputElement>('[name="acepta_derecho_documentos"]')!;
 
   let archivos: File[] = [];
+  let enviando = false;
+  let tokenCaptcha = '';
+  let idCaptcha: string | undefined;
+  const inicio = performance.now();
 
   // ---------- Mensajes de error ----------
   function mostrarError(id: string, mensaje: string): void {
@@ -88,7 +108,7 @@ function iniciar(form: HTMLFormElement): void {
 
   function mostrarArchivos(): boolean {
     const c = categoriaElegida();
-    return c ? c.permiteArchivos : true; // sin categoría elegida se muestra
+    return c ? c.permiteArchivos : true;
   }
 
   function actualizarCategoria(): void {
@@ -122,7 +142,6 @@ function iniciar(form: HTMLFormElement): void {
 
   // ---------- Archivos ----------
   function sincronizarArchivos(): void {
-    // El input de archivos no se puede editar a mano; se reconstruye con DataTransfer.
     const lote = new DataTransfer();
     archivos.forEach((f) => lote.items.add(f));
     inputArchivos.files = lote.files;
@@ -173,7 +192,6 @@ function iniciar(form: HTMLFormElement): void {
   }
 
   // ---------- Validación ----------
-  /** Devuelve el id del primer campo con error, o null si todo está bien. */
   function validar(): string | null {
     let primero: string | null = null;
     const fallo = (id: string, mensaje: string) => {
@@ -219,6 +237,98 @@ function iniciar(form: HTMLFormElement): void {
     return primero;
   }
 
+  // ---------- Estado, captcha y envío ----------
+  function mostrarEstado(tipo: 'error' | 'info', texto: string): void {
+    estado.hidden = false;
+    estado.className = `form-status form-status--${tipo}`;
+    estado.textContent = texto;
+  }
+
+  function iniciarCaptcha(): void {
+    const clave = import.meta.env.PUBLIC_TURNSTILE_SITEKEY as string | undefined;
+    const contenedor = document.getElementById('captcha');
+    if (!clave || !contenedor) return;
+    let intentos = 0;
+    const espera = window.setInterval(() => {
+      intentos++;
+      if (window.turnstile) {
+        window.clearInterval(espera);
+        idCaptcha = window.turnstile.render(contenedor, {
+          sitekey: clave,
+          action: 'enviar_testimonio',
+          callback: (token: string) => (tokenCaptcha = token),
+          'expired-callback': () => (tokenCaptcha = ''),
+          'error-callback': () => (tokenCaptcha = ''),
+        });
+      } else if (intentos > 100) {
+        window.clearInterval(espera);
+      }
+    }, 100);
+  }
+
+  function reiniciarCaptcha(): void {
+    tokenCaptcha = '';
+    if (idCaptcha !== undefined) window.turnstile?.reset(idCaptcha);
+  }
+
+  async function enviar(): Promise<void> {
+    if (!envioConfigurado()) {
+      mostrarEstado('error', 'El envío todavía no está configurado en esta web.');
+      return;
+    }
+    if (!tokenCaptcha) {
+      mostrarEstado('error', 'Espera a que termine la comprobación de seguridad y vuelve a pulsar «Enviar Testimonio».');
+      return;
+    }
+
+    enviando = true;
+    botonEnviar.disabled = true;
+    mostrarEstado('info', 'Enviando…');
+
+    const resultado = await enviarTestimonio(
+      {
+        anonimo: esAnonimo(),
+        nombre: nombre.value,
+        apellidos: apellidos.value,
+        contacto: contacto.value,
+        categoria: categoria.value,
+        categoria_otra: categoriaOtra.value,
+        testimonio: testimonio.value,
+        consecuencias: consecuencias.value,
+        acepta_publicacion: aceptaPublicacion.checked,
+        acepta_privacidad: aceptaPrivacidad.checked,
+        acepta_derecho_documentos: aceptaDerecho.checked,
+        sitio_web: trampa.value,
+        tiempo_ms: Math.round(performance.now() - inicio),
+        captcha: tokenCaptcha,
+      },
+      archivos,
+      (hechos, total) => mostrarEstado('info', `Subiendo archivos (${hechos}/${total})…`),
+    );
+
+    if (!resultado.ok) {
+      mostrarEstado('error', resultado.error);
+      if (resultado.campo) document.getElementById(resultado.campo)?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      reiniciarCaptcha();
+      enviando = false;
+      botonEnviar.disabled = false;
+      return;
+    }
+
+    if (graciasAviso) {
+      graciasAviso.hidden = resultado.fallosSubida.length === 0;
+      graciasAviso.textContent =
+        resultado.fallosSubida.length > 0
+          ? `Tu testimonio se ha recibido, pero no hemos podido subir ${resultado.fallosSubida.length === 1 ? 'un archivo' : 'algunos archivos'}. Te contactaremos para recibirlos.`
+          : '';
+    }
+    form!.hidden = true;
+    if (gracias) {
+      gracias.hidden = false;
+      gracias.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    }
+  }
+
   // ---------- Eventos ----------
   radios.forEach((r) => r.addEventListener('change', actualizarAnonimato));
   categoria.addEventListener('change', actualizarCategoria);
@@ -226,7 +336,6 @@ function iniciar(form: HTMLFormElement): void {
   testimonio.addEventListener('input', () => actualizarContador(testimonio, REGLAS.testimonioMax));
   consecuencias.addEventListener('input', () => actualizarContador(consecuencias, REGLAS.consecuenciasMax));
 
-  // Al corregir un campo, su error desaparece
   form.addEventListener('input', (e) => {
     const id = (e.target as HTMLElement).id;
     if (id) limpiarError(id);
@@ -259,20 +368,19 @@ function iniciar(form: HTMLFormElement): void {
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
+    if (enviando) return;
     const primero = validar();
-    estado.hidden = false;
     if (primero) {
-      estado.className = 'form-status form-status--error';
-      estado.textContent = 'Revisa los campos marcados en rojo.';
+      mostrarEstado('error', 'Revisa los campos marcados en rojo.');
       const destino = document.getElementById(primero);
       (destino?.querySelector?.('input') ?? destino)?.focus?.();
       destino?.scrollIntoView({ block: 'center', behavior: 'smooth' });
       return;
     }
-    estado.className = 'form-status form-status--info';
-    estado.textContent = 'El formulario es válido, pero todavía no se envía: el envío se conectará en el siguiente paso.';
+    void enviar();
   });
 
+  iniciarCaptcha();
   actualizarAnonimato();
   actualizarCategoria();
   actualizarContador(testimonio, REGLAS.testimonioMax);

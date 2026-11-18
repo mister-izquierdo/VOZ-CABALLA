@@ -22,13 +22,13 @@
   --color-amarillo: #fffb00;
 
   /* COLORES DE CATEGORÍA */
-  --cat-economicos: #fffb00;
-  --cat-materiales: #0dff00;
-  --cat-laborales: #ff9946;
-  --cat-familiares: #ff4659;
-  --cat-psicologicas: #ff46d4;
-  --cat-inseguridad: #00d9ff;
-  --cat-otro: #ededed;
+  --cat-economicos: #dadada;
+  --cat-materiales: #dadada;
+  --cat-laborales: #dadada;
+  --cat-familiares: #dadada;
+  --cat-psicologicas: #dadada;
+  --cat-inseguridad: #dadada;
+  --cat-otro: #dadada;
 
   /* TIPOGRAFÍA */
   --font-sans: "Inter Variable", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -36,14 +36,14 @@
   /* ESPACIADO ENTRE LETRAS
      Tus diseños llevan las letras muy juntas. Estos valores se midieron para que
      cada texto ocupe el mismo ancho que en tus lienzos usando Inter normal. */
-  --tracking-nav: -0.09em;
-  --tracking-numero: -0.08em;
+  --tracking-nav: -0.049em;
+  --tracking-numero: -0.048em;
   --tracking-etiqueta: -0.09em;
   --tracking-pastilla: -0.075em;
-  --tracking-titulo: -0.070em;
-  --tracking-cuerpo: -0.08em;
-  --tracking-boton: -0.060em;
-  --tracking-pequeno: -0.055em;
+  --tracking-titulo: -0.049em;
+  --tracking-cuerpo: -0.05em;
+  --tracking-boton: -0.0060em;
+  --tracking-pequeno: -0.05em;
 
   /* HEADER
      Espacio por encima de los botones de navegación, en unidades de lienzo.

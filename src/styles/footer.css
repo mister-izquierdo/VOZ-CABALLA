@@ -8,7 +8,7 @@
   background: var(--color-azul);
   color: #fff;
   text-align: center;
-  padding: calc(32 * var(--u)) 0 max(calc(52 * var(--u)), env(safe-area-inset-bottom, 0px));
+  padding: calc(48 * var(--u)) 0 max(calc(52 * var(--u)), env(safe-area-inset-bottom, 0px));
 }
 
 .site-footer__inner {
@@ -19,20 +19,20 @@
   align-items: center;
 }
 
-.site-footer__logo { display: block; width: calc(408.5 * var(--u)); height: auto; }
-
-.site-footer__tagline {
-  margin: calc(19 * var(--u)) 0 0;
+.site-footer__copy {
+  margin: 0;
+  max-width: calc(900 * var(--u));
   /* Mínimo de 12 px para que se pueda leer en móvil */
   font-size: max(12px, calc(28 * var(--u)));
-  line-height: 1.2;
+  line-height: 1.25;
   font-weight: 500;
   letter-spacing: var(--tracking-pequeno);
+  text-wrap: balance;
 }
 
 .site-footer__links {
   list-style: none;
-  margin: calc(22 * var(--u)) 0 0;
+  margin: calc(26 * var(--u)) 0 0;
   padding: 0;
   display: flex;
   flex-wrap: wrap;

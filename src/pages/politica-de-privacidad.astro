@@ -1,16 +1,475 @@
+
 ---
-/**
- * VOZ CABALLA · pages/politica-de-privacidad.astro
- * PROVISIONAL: el texto legal se redactará más adelante.
- */
+export const prerender = true;
+
 import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+
+const updated = '17 de noviembre de 2026';
 ---
 
-<Layout title="Política de privacidad · VOZ CABALLA">
-  <main>
-    <p class="provisional">Política de privacidad: texto pendiente de redactar.</p>
-    <p class="provisional"><a href="/">Volver al inicio</a></p>
+<Layout
+  title="Política de privacidad | Voz Caballa"
+  description="Información sobre el tratamiento de datos personales en Voz Caballa."
+>
+  <Header />
+
+  <main class="legal-page">
+    <div class="legal-page__inner">
+
+      <header class="legal-page__header">
+        <p class="legal-page__eyebrow">VOZ CABALLA</p>
+        <h1>Política de privacidad</h1>
+        <p class="legal-page__updated">
+          Última actualización: {updated}
+        </p>
+      </header>
+
+      <div class="legal-page__content">
+
+        <section>
+          <h2>1. Responsable del tratamiento</h2>
+
+          <ul>
+            <li><strong>Responsable:</strong> Alejandro Izquierdo Gallardo.</li>
+            <li><strong>Naturaleza:</strong> persona física.</li>
+            <li><strong>Proyecto:</strong> Voz Caballa.</li>
+            <li><strong>Dirección de contacto:</strong> C. Velarde, 25, 51001 Ceuta, España.</li>
+            <li>
+              <strong>Correo electrónico:</strong>
+              <a href="mailto:info.mr.izquierdo@gmail.com">
+                info.mr.izquierdo@gmail.com
+              </a>
+            </li>
+          </ul>
+
+          <p>
+            Voz Caballa es actualmente un proyecto ciudadano independiente
+            gestionado por una persona física. No se presenta como una
+            asociación ni como una persona jurídica independiente.
+          </p>
+
+          <p>
+            Alejandro Izquierdo Gallardo determina los fines y medios del
+            tratamiento de datos personales descrito en esta política.
+          </p>
+        </section>
+
+        <section>
+          <h2>2. Qué datos podemos tratar</h2>
+
+          <p>
+            En función de la interacción con el sitio web, podrán tratarse
+            las siguientes categorías de datos:
+          </p>
+
+          <ul>
+            <li>
+              <strong>Datos identificativos y de contacto:</strong>
+              nombre o alias, correo electrónico y otros datos de contacto
+              que el usuario decida facilitar.
+            </li>
+
+            <li>
+              <strong>Contenido de la aportación:</strong>
+              testimonios, relatos, opiniones, respuestas y comunicaciones
+              remitidas mediante los formularios.
+            </li>
+
+            <li>
+              <strong>Archivos adjuntos:</strong>
+              fotografías, vídeos, documentos u otros archivos que el
+              formulario permita enviar.
+            </li>
+
+            <li>
+              <strong>Datos técnicos y de seguridad:</strong>
+              dirección IP, información del navegador o dispositivo,
+              registros técnicos y datos necesarios para prevenir envíos
+              automatizados o abusivos, en la medida en que los proveedores
+              y sistemas utilizados los generen.
+            </li>
+
+            <li>
+              <strong>Preferencias:</strong>
+              elección sobre la publicación de un testimonio o archivo y,
+              si se incorpora esa función, preferencias de comunicaciones.
+            </li>
+          </ul>
+
+          <p>
+            Se recomienda no incluir datos personales de terceras personas
+            ni información especialmente delicada que no sea imprescindible
+            para explicar el testimonio.
+          </p>
+        </section>
+
+        <section>
+          <h2>3. Finalidades y bases jurídicas</h2>
+
+          <p>
+            Los datos personales podrán tratarse para las siguientes
+            finalidades:
+          </p>
+
+          <ul>
+            <li>
+              <strong>Recibir, leer, clasificar y valorar testimonios:</strong>
+              consentimiento del usuario al enviar voluntariamente la
+              aportación y, cuando corresponda, medidas precontractuales o
+              interés legítimo debidamente ponderado para gestionar
+              comunicaciones y proteger el proyecto.
+            </li>
+
+            <li>
+              <strong>Contactar con la persona remitente:</strong>
+              consentimiento o interés legítimo, según el contexto y el
+              contenido de la comunicación.
+            </li>
+
+            <li>
+              <strong>Publicar un testimonio, imagen, vídeo o documento:</strong>
+              autorización específica y separada de la recepción del material.
+              La publicación no se realizará por el mero hecho de enviar una
+              aportación.
+            </li>
+
+            <li>
+              <strong>Gestionar datos de categorías especiales:</strong>
+              cuando resulte necesario y proceda, consentimiento explícito
+              y específico conforme al artículo 9.2.a) del Reglamento General
+              de Protección de Datos (RGPD).
+            </li>
+
+            <li>
+              <strong>Seguridad y prevención del fraude:</strong>
+              interés legítimo del responsable y, cuando corresponda,
+              cumplimiento de obligaciones legales.
+            </li>
+          </ul>
+
+          <p>
+            El consentimiento podrá retirarse en cualquier momento. La
+            retirada no afectará a la licitud del tratamiento realizado
+            antes de retirarlo.
+          </p>
+        </section>
+
+        <section>
+          <h2>4. Datos especialmente protegidos</h2>
+
+          <p>
+            Un testimonio puede revelar, entre otros, opiniones políticas,
+            afiliación sindical, convicciones religiosas, origen racial o
+            étnico, datos de salud, vida sexual u orientación sexual. Estos
+            datos pertenecen a categorías especiales conforme al artículo 9
+            del RGPD.
+          </p>
+
+          <p>
+            Voz Caballa no solicita que se aporten este tipo de datos. Si el
+            usuario considera imprescindible incluirlos, deberá indicarlo y
+            prestar, cuando sea la base jurídica aplicable, un consentimiento
+            explícito, separado, informado y específico para su tratamiento.
+          </p>
+
+          <p>
+            La autorización para publicar esos datos deberá ser también
+            expresa y diferenciada. No se publicará información sensible por
+            defecto ni por el simple hecho de que aparezca en un relato.
+          </p>
+
+          <p>
+            Si se reciben datos especialmente protegidos sin una base
+            jurídica válida, se limitará su acceso y se procederá a su
+            supresión o anonimización tan pronto como sea razonablemente
+            posible.
+          </p>
+
+          <p>
+            No se deben enviar datos sensibles de otras personas sin contar
+            con una base jurídica suficiente.
+          </p>
+        </section>
+
+        <section>
+          <h2>5. Publicación de testimonios y archivos</h2>
+
+          <p>
+            El envío de un testimonio no implica su publicación. Cada
+            aportación será revisada antes de decidir si puede utilizarse
+            en la web o en los canales de comunicación del proyecto.
+          </p>
+
+          <p>
+            La autorización para publicar será opcional, específica y
+            separada de la aceptación de esta política. Cuando se autorice
+            la publicación, se solicitará que la persona indique el alcance
+            de la autorización y si permite mostrar su nombre, alias, imagen,
+            voz o documentos.
+          </p>
+
+          <p>
+            Los archivos adjuntos se revisarán individualmente. Solo se
+            publicarán aquellos elementos concretos para los que exista
+            autorización suficiente y no se aprecien derechos de terceros
+            vulnerados.
+          </p>
+
+          <p>
+            Antes de publicar, podrán ocultarse datos identificativos de
+            terceros, metadatos, direcciones, teléfonos, firmas u otra
+            información que no sea necesaria.
+          </p>
+
+          <p>
+            La persona remitente declara que tiene derecho a aportar el
+            material y que no vulnera derechos de terceros, sin que esta
+            declaración sustituya la revisión del responsable.
+          </p>
+
+          <p>
+            La retirada posterior de una autorización podrá solicitarse
+            por correo electrónico. Se retirará el contenido de los espacios
+            controlados por Voz Caballa en un plazo razonable, sin perjuicio
+            de copias técnicas, cachés de terceros o conservación necesaria
+            para atender obligaciones legales o reclamaciones.
+          </p>
+        </section>
+
+        <section>
+          <h2>6. Plazos de conservación</h2>
+
+          <ul>
+            <li>
+              <strong>Testimonios pendientes de valoración:</strong>
+              se revisarán periódicamente y, como criterio general, se
+              eliminarán o anonimizarán en un máximo de seis meses desde
+              su recepción si no existe una razón documentada para
+              mantenerlos durante más tiempo.
+            </li>
+
+            <li>
+              <strong>Testimonios seleccionados o en proceso de edición:</strong>
+              se conservarán mientras sean necesarios para la valoración,
+              preparación y gestión de la publicación, y se revisarán cuando
+              deje de existir esa finalidad.
+            </li>
+
+            <li>
+              <strong>Contenidos publicados:</strong>
+              se mantendrán mientras siga vigente la autorización y la
+              finalidad de publicación. Se retirarán cuando se retire
+              válidamente la autorización o deje de existir la finalidad.
+            </li>
+
+            <li>
+              <strong>Consentimientos y evidencias de autorización:</strong>
+              podrán conservarse durante los plazos necesarios para demostrar
+              la autorización y atender posibles responsabilidades legales.
+            </li>
+
+            <li>
+              <strong>Comunicaciones y registros técnicos:</strong>
+              durante el tiempo imprescindible para atender la consulta,
+              mantener la seguridad del sitio y cumplir obligaciones legales.
+            </li>
+          </ul>
+
+          <p>
+            Los plazos podrán ampliarse cuando exista una obligación legal,
+            una reclamación o la necesidad de formular, ejercer o defender
+            reclamaciones. En tal caso, los datos quedarán bloqueados o con
+            acceso restringido cuando proceda.
+          </p>
+        </section>
+
+        <section>
+          <h2>7. Destinatarios y proveedores</h2>
+
+          <p>
+            Los datos no se venderán ni se cederán para que terceros los
+            utilicen con fines comerciales propios.
+          </p>
+
+          <p>
+            Podrán acceder a ellos proveedores que presten servicios
+            necesarios para alojar, mantener, proteger o gestionar el sitio
+            web y sus formularios, actuando bajo las instrucciones del
+            responsable y con las garantías contractuales que correspondan.
+          </p>
+
+          <p>
+            La infraestructura técnica prevista incluye alojamiento web y
+            un servicio de protección frente a envíos automatizados
+            (Cloudflare Turnstile). Estos proveedores pueden tratar datos
+            técnicos, como dirección IP, información del navegador y datos
+            de seguridad.
+          </p>
+
+          <p>
+            Antes de publicar el formulario deberán verificarse los
+            proveedores efectivamente activos, sus condiciones, los acuerdos
+            de tratamiento y, en su caso, las garantías para transferencias
+            internacionales.
+          </p>
+
+          <p>
+            También podrán comunicarse datos a autoridades y organismos
+            públicos cuando exista obligación legal, o a profesionales
+            sujetos a deber de confidencialidad cuando sea necesario para
+            asesoramiento o defensa jurídica.
+          </p>
+        </section>
+
+        <section>
+          <h2>8. Transferencias internacionales</h2>
+
+          <p>
+            Algunos proveedores tecnológicos podrían tratar datos desde
+            fuera del Espacio Económico Europeo.
+          </p>
+
+          <p>
+            Si esto sucede, el responsable comprobará que la transferencia
+            se ampara en una decisión de adecuación, garantías adecuadas
+            —como cláusulas contractuales tipo— u otro mecanismo válido
+            previsto en el RGPD.
+          </p>
+
+          <p>
+            La información concreta sobre proveedores y garantías deberá
+            actualizarse cuando se confirme la configuración técnica
+            definitiva.
+          </p>
+        </section>
+
+        <section>
+          <h2>9. Derechos de las personas</h2>
+
+          <p>
+            El usuario puede ejercer los derechos de acceso, rectificación,
+            supresión, oposición, limitación del tratamiento y portabilidad
+            cuando resulten aplicables.
+          </p>
+
+          <p>
+            También puede retirar el consentimiento en cualquier momento
+            y solicitar información sobre el tratamiento de sus datos.
+          </p>
+
+          <p>
+            Para ejercer estos derechos, puede escribir a:
+          </p>
+
+          <p>
+            <a href="mailto:info.mr.izquierdo@gmail.com">
+              info.mr.izquierdo@gmail.com
+            </a>
+          </p>
+
+          <p>
+            Se deberá indicar el derecho que se desea ejercer y aportar la
+            información necesaria para verificar razonablemente la identidad.
+            No debe enviarse documentación identificativa adicional salvo
+            que resulte necesaria y se solicite de forma justificada.
+          </p>
+
+          <p>
+            Si considera que sus derechos no han sido atendidos, puede
+            presentar una reclamación ante la Agencia Española de Protección
+            de Datos:
+            <a href="https://www.aepd.es/" target="_blank" rel="noopener noreferrer">
+              www.aepd.es
+            </a>.
+          </p>
+        </section>
+
+        <section>
+          <h2>10. Seguridad</h2>
+
+          <p>
+            El responsable aplicará medidas técnicas y organizativas
+            razonables para proteger los datos frente a pérdida, alteración,
+            acceso o divulgación no autorizados.
+          </p>
+
+          <p>
+            El acceso a testimonios y archivos se limitará a quienes
+            necesiten gestionarlos. Ningún sistema conectado a Internet
+            puede garantizar seguridad absoluta.
+          </p>
+        </section>
+
+        <section>
+          <h2>11. Menores de edad</h2>
+
+          <p>
+            El formulario no está destinado a recoger testimonios de menores
+            sin las garantías y autorizaciones exigidas por la normativa.
+          </p>
+
+          <p>
+            Si se recibe información que permita identificar a un menor,
+            se limitará su tratamiento y se valorará su eliminación o
+            anonimización, salvo que exista una base jurídica válida y
+            garantías suficientes.
+          </p>
+        </section>
+
+        <section>
+          <h2>12. Cambios en esta política</h2>
+
+          <p>
+            Esta política podrá actualizarse para reflejar cambios
+            normativos, técnicos u organizativos.
+          </p>
+
+          <p>
+            La versión vigente será la publicada en esta página, con
+            indicación de su fecha de actualización.
+          </p>
+        </section>
+
+      </div>
+    </div>
   </main>
+
   <Footer />
 </Layout>
+
+<style>
+  /* VOZ CABALLA · CONTENEDOR DE PÁGINAS LEGALES */
+
+  main.legal-page {
+    width: 100%;
+    max-width: none;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 74px 32px 110px;
+  }
+
+  .legal-page__inner {
+    width: 100%;
+    max-width: 820px;
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .legal-page__content {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  @media (min-width: 700px) {
+    main.legal-page {
+      padding: 56px 60px 88px;
+    }
+
+    .legal-page__inner {
+      max-width: 900px;
+    }
+  }
+</style>
