@@ -1,0 +1,469 @@
+
+---
+/**
+ * VOZ CABALLA · CookieConsent.astro
+ * Gestión del consentimiento para Google Analytics 4 y Microsoft Clarity.
+ */
+---
+
+<div id="vc-cookie-banner" class="vc-cookie-banner" hidden>
+  <div class="vc-cookie-banner__content">
+    <div>
+      <strong>Tu privacidad importa</strong>
+      <p>
+        Utilizamos cookies técnicas y, si nos das permiso, herramientas
+        analíticas para comprender cómo se utiliza Voz Caballa y mejorar
+        la experiencia.
+        <a href="/politica-de-cookies">Más información</a>.
+      </p>
+    </div>
+
+    <div class="vc-cookie-banner__actions">
+      <button type="button" id="vc-cookie-accept">Aceptar todas</button>
+      <button type="button" id="vc-cookie-reject">Rechazar</button>
+      <button type="button" id="vc-cookie-configure">Configurar</button>
+    </div>
+  </div>
+</div>
+
+<div id="vc-cookie-preferences" class="vc-cookie-modal" hidden>
+  <div class="vc-cookie-modal__backdrop" data-cookie-close></div>
+
+  <section
+    class="vc-cookie-modal__dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="vc-cookie-title"
+  >
+    <button
+      type="button"
+      class="vc-cookie-modal__close"
+      id="vc-cookie-close"
+      aria-label="Cerrar preferencias"
+    >
+      ×
+    </button>
+
+    <h2 id="vc-cookie-title">Preferencias de cookies</h2>
+
+    <p>
+      Puedes elegir qué tecnologías permites utilizar en tu visita.
+      Las cookies técnicas son necesarias para el funcionamiento de la web.
+    </p>
+
+    <div class="vc-cookie-option">
+      <div>
+        <strong>Cookies técnicas</strong>
+        <p>Necesarias para el funcionamiento básico de Voz Caballa.</p>
+      </div>
+      <span class="vc-cookie-required">Siempre activas</span>
+    </div>
+
+    <div class="vc-cookie-option">
+      <div>
+        <strong>Cookies analíticas</strong>
+        <p>
+          Permiten analizar el uso de la web mediante Google Analytics
+          y Microsoft Clarity.
+        </p>
+      </div>
+
+      <label class="vc-cookie-switch">
+        <input type="checkbox" id="vc-cookie-analytics" />
+        <span class="vc-cookie-slider"></span>
+      </label>
+    </div>
+
+    <div class="vc-cookie-modal__actions">
+      <button type="button" id="vc-cookie-save">Guardar preferencias</button>
+      <button type="button" id="vc-cookie-accept-all">Aceptar todas</button>
+    </div>
+
+    <a href="/politica-de-cookies">Consultar política de cookies</a>
+  </section>
+</div>
+
+<style>
+  .vc-cookie-banner[hidden],
+  .vc-cookie-modal[hidden] {
+    display: none !important;
+  }
+
+  .vc-cookie-banner {
+    position: fixed;
+    z-index: 9998;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 22px;
+    color: #171717;
+    background: #fff;
+    border: 1px solid #dedede;
+    border-radius: 12px;
+    box-shadow: 0 8px 35px rgba(0, 0, 0, .16);
+    font-family: inherit;
+  }
+
+  .vc-cookie-banner__content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .vc-cookie-banner strong {
+    font-size: 16px;
+  }
+
+  .vc-cookie-banner p,
+  .vc-cookie-modal p {
+    margin: 8px 0 0;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .vc-cookie-banner a,
+  .vc-cookie-modal a {
+    color: inherit;
+    text-decoration: underline;
+  }
+
+  .vc-cookie-banner__actions,
+  .vc-cookie-modal__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .vc-cookie-banner button,
+  .vc-cookie-modal button:not(.vc-cookie-modal__close) {
+    padding: 10px 13px;
+    border: 1px solid #222;
+    border-radius: 6px;
+    background: #fff;
+    color: #171717;
+    font: inherit;
+    font-size: 12px;
+    cursor: pointer;
+  }
+
+  .vc-cookie-modal {
+    position: fixed;
+    z-index: 9999;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+  }
+
+  .vc-cookie-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, .6);
+  }
+
+  .vc-cookie-modal__dialog {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 480px;
+    padding: 28px;
+    background: #fff;
+    color: #171717;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, .2);
+    font-family: inherit;
+  }
+
+  .vc-cookie-modal__dialog h2 {
+    margin: 0 30px 12px 0;
+    font-size: 21px;
+  }
+
+  .vc-cookie-modal__close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    border: 0;
+    background: transparent;
+    color: #171717;
+    font-size: 27px;
+    cursor: pointer;
+  }
+
+  .vc-cookie-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 0;
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  .vc-cookie-option strong {
+    font-size: 14px;
+  }
+
+  .vc-cookie-option p {
+    max-width: 300px;
+  }
+
+  .vc-cookie-required {
+    flex-shrink: 0;
+    font-size: 11px;
+    color: #555;
+  }
+
+  .vc-cookie-switch {
+    position: relative;
+    display: inline-block;
+    width: 42px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+
+  .vc-cookie-switch input {
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+
+  .vc-cookie-slider {
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    background: #aaa;
+    cursor: pointer;
+    transition: .2s;
+  }
+
+  .vc-cookie-slider::before {
+    position: absolute;
+    content: "";
+    width: 18px;
+    height: 18px;
+    left: 3px;
+    bottom: 3px;
+    border-radius: 50%;
+    background: white;
+    transition: .2s;
+  }
+
+  .vc-cookie-switch input:checked + .vc-cookie-slider {
+    background: #222;
+  }
+
+  .vc-cookie-switch input:checked + .vc-cookie-slider::before {
+    transform: translateX(18px);
+  }
+
+  .vc-cookie-modal__actions {
+    margin: 22px 0 16px;
+  }
+
+  @media (max-width: 650px) {
+    .vc-cookie-banner__content {
+      align-items: stretch;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .vc-cookie-banner__actions button {
+      flex: 1;
+    }
+
+    .vc-cookie-modal__dialog {
+      padding: 22px;
+    }
+  }
+</style>
+
+<script>
+  const GA_ID = 'G-61DRVKQNRL';
+  const CLARITY_ID = 'zg57jshnbx';
+  const STORAGE_KEY = 'vc_cookie_consent_v1';
+
+  const banner = document.querySelector<HTMLDivElement>('#vc-cookie-banner');
+  const preferences = document.querySelector<HTMLDivElement>('#vc-cookie-preferences');
+  const analyticsCheckbox = document.querySelector<HTMLInputElement>('#vc-cookie-analytics');
+
+  const acceptButton = document.querySelector<HTMLButtonElement>('#vc-cookie-accept');
+  const rejectButton = document.querySelector<HTMLButtonElement>('#vc-cookie-reject');
+  const configureButton = document.querySelector<HTMLButtonElement>('#vc-cookie-configure');
+  const saveButton = document.querySelector<HTMLButtonElement>('#vc-cookie-save');
+  const acceptAllButton = document.querySelector<HTMLButtonElement>('#vc-cookie-accept-all');
+  const closeButton = document.querySelector<HTMLButtonElement>('#vc-cookie-close');
+
+  let analyticsLoaded = false;
+  let clarityLoaded = false;
+
+  type Consent = {
+    necessary: true;
+    analytics: boolean;
+    updatedAt: string;
+  };
+
+  function getConsent(): Consent | null {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (!stored) return null;
+
+      const parsed = JSON.parse(stored);
+
+      if (typeof parsed.analytics !== 'boolean') return null;
+
+      return parsed as Consent;
+    } catch {
+      return null;
+    }
+  }
+
+  function saveConsent(analytics: boolean) {
+    const consent: Consent = {
+      necessary: true,
+      analytics,
+      updatedAt: new Date().toISOString()
+    };
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(consent));
+    applyConsent(analytics);
+
+    if (banner) banner.hidden = true;
+    if (preferences) preferences.hidden = true;
+  }
+
+  function loadAnalytics() {
+    if (analyticsLoaded) return;
+
+    analyticsLoaded = true;
+
+    const w = window as any;
+
+    // Google Analytics 4
+    w.dataLayer = w.dataLayer || [];
+    w.gtag = function () {
+      w.dataLayer.push(arguments);
+    };
+
+    w.gtag('consent', 'default', {
+      analytics_storage: 'denied',
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied'
+    });
+
+    w.gtag('consent', 'update', {
+      analytics_storage: 'granted'
+    });
+
+    w.gtag('js', new Date());
+    w.gtag('config', GA_ID);
+
+    const gaScript = document.createElement('script');
+    gaScript.async = true;
+    gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+    document.head.appendChild(gaScript);
+
+    // Microsoft Clarity: únicamente en Exprésate.
+    // Solo se carga si previamente se ha aceptado la analítica.
+    const path = window.location.pathname.replace(/\/+$/, '') || '/';
+
+    if (path === '/expresate') {
+      loadClarity();
+    }
+  }
+
+  function loadClarity() {
+    if (clarityLoaded) return;
+
+    clarityLoaded = true;
+
+    const w = window as any;
+
+    w.clarity = w.clarity || function (...args: unknown[]) {
+      (w.clarity.q = w.clarity.q || []).push(args);
+    };
+
+    w.clarity('consentv2', {
+      ad_Storage: 'denied',
+      analytics_Storage: 'granted'
+    });
+
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `https://www.clarity.ms/tag/${CLARITY_ID}`;
+    document.head.appendChild(script);
+  }
+
+  function applyConsent(analytics: boolean) {
+    const w = window as any;
+
+    if (analytics) {
+      loadAnalytics();
+    } else {
+      // Si se retira el consentimiento, actualizar el estado analítico.
+      if (w.gtag) {
+        w.gtag('consent', 'update', {
+          analytics_storage: 'denied',
+          ad_storage: 'denied',
+          ad_user_data: 'denied',
+          ad_personalization: 'denied'
+        });
+      }
+
+      if (w.clarity) {
+        w.clarity('consentv2', {
+          ad_Storage: 'denied',
+          analytics_Storage: 'denied'
+        });
+      }
+    }
+  }
+
+  function openPreferences() {
+    if (preferences) preferences.hidden = false;
+    if (analyticsCheckbox) {
+      analyticsCheckbox.checked = getConsent()?.analytics ?? false;
+    }
+  }
+
+  acceptButton?.addEventListener('click', () => saveConsent(true));
+
+  rejectButton?.addEventListener('click', () => saveConsent(false));
+
+  acceptAllButton?.addEventListener('click', () => saveConsent(true));
+
+  configureButton?.addEventListener('click', openPreferences);
+
+  saveButton?.addEventListener('click', () => {
+    saveConsent(analyticsCheckbox?.checked ?? false);
+  });
+
+  closeButton?.addEventListener('click', () => {
+    if (preferences) preferences.hidden = true;
+  });
+
+  preferences?.querySelector('[data-cookie-close]')?.addEventListener('click', () => {
+    preferences.hidden = true;
+  });
+
+  document.addEventListener('click', (event) => {
+    const target = event.target as Element | null;
+
+    if (target?.closest('[data-open-cookie-settings]')) {
+      event.preventDefault();
+      openPreferences();
+    }
+  });
+
+  // Aplicar la decisión guardada o mostrar el aviso por primera vez.
+  const existingConsent = getConsent();
+
+  if (existingConsent) {
+    applyConsent(existingConsent.analytics);
+  } else if (banner) {
+    banner.hidden = false;
+  }
+</script>

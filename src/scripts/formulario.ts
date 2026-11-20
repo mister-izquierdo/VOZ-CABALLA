@@ -8,6 +8,7 @@
  *  - Archivos: tipo, tamaño y cantidad; arrastrar y soltar; quitar
  *  - Validación y mensajes de error
  *  - Captcha (Cloudflare Turnstile), campo trampa y envío a Supabase
+ *  - Eventos anónimos de Microsoft Clarity
  */
 import { CATEGORIAS } from '../lib/categorias';
 import { REGLAS, esContactoValido, formatearBytes } from '../lib/formulario-reglas';
@@ -15,11 +16,21 @@ import { enviarTestimonio, envioConfigurado } from '../lib/enviar-testimonio';
 
 declare global {
   interface Window {
-    // API de Cloudflare Turnstile (la carga su script)
+    // API de Cloudflare Turnstile
     turnstile?: {
       render: (contenedor: HTMLElement, opciones: Record<string, unknown>) => string;
       reset: (id?: string) => void;
     };
+
+    // API de Microsoft Clarity
+    clarity?: (...args: unknown[]) => void;
+  }
+}
+
+// ---------- Analítica: eventos sin datos personales ----------
+function registrarEventoClarity(nombre: string): void {
+  if (typeof window.clarity === 'function') {
+    window.clarity('event', nombre);
   }
 }
 
@@ -315,6 +326,9 @@ function iniciar(form: HTMLFormElement): void {
       return;
     }
 
+    // Evento genérico: no transmite el contenido del testimonio.
+    registrarEventoClarity('vc_testimonio_recibido');
+
     if (graciasAviso) {
       graciasAviso.hidden = resultado.fallosSubida.length === 0;
       graciasAviso.textContent =
@@ -331,7 +345,15 @@ function iniciar(form: HTMLFormElement): void {
 
   // ---------- Eventos ----------
   radios.forEach((r) => r.addEventListener('change', actualizarAnonimato));
-  categoria.addEventListener('change', actualizarCategoria);
+
+  categoria.addEventListener('change', () => {
+    actualizarCategoria();
+
+    // Solo registra que se ha elegido una categoría, nunca su contenido.
+    if (categoria.value) {
+      registrarEventoClarity('vc_categoria_seleccionada');
+    }
+  });
 
   testimonio.addEventListener('input', () => actualizarContador(testimonio, REGLAS.testimonioMax));
   consecuencias.addEventListener('input', () => actualizarContador(consecuencias, REGLAS.consecuenciasMax));
@@ -340,6 +362,7 @@ function iniciar(form: HTMLFormElement): void {
     const id = (e.target as HTMLElement).id;
     if (id) limpiarError(id);
   });
+
   form.addEventListener('change', (e) => {
     const destino = e.target as HTMLInputElement;
     if (destino.type === 'checkbox') {
@@ -358,9 +381,11 @@ function iniciar(form: HTMLFormElement): void {
       zonaArchivos.classList.add('is-over');
     }),
   );
+
   ['dragleave', 'drop'].forEach((ev) =>
     zonaArchivos.addEventListener(ev, () => zonaArchivos.classList.remove('is-over')),
   );
+
   zonaArchivos.addEventListener('drop', (e) => {
     e.preventDefault();
     anadirArchivos(Array.from((e as DragEvent).dataTransfer?.files ?? []));
@@ -369,6 +394,10 @@ function iniciar(form: HTMLFormElement): void {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     if (enviando) return;
+
+    // Registra el intento, incluso si después falla la validación.
+    registrarEventoClarity('vc_envio_intentado');
+
     const primero = validar();
     if (primero) {
       mostrarEstado('error', 'Revisa los campos marcados en rojo.');
@@ -377,6 +406,7 @@ function iniciar(form: HTMLFormElement): void {
       destino?.scrollIntoView({ block: 'center', behavior: 'smooth' });
       return;
     }
+
     void enviar();
   });
 

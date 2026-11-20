@@ -13,6 +13,7 @@ import '../styles/home.css';
 import '../styles/form.css';
 import '../styles/testimonios.css';
 import '../styles/admin.css';
+import CookieConsent from '../components/CookieConsent.astro';
 
 interface Props {
   title?: string;
@@ -69,6 +70,7 @@ const {
       </symbol>
     </svg>
     <slot />
+    <CookieConsent />
     <script>
       import '../scripts/counters';
       import '../scripts/compartir';
